@@ -3,7 +3,7 @@ const Wallet = require("../model/Wallet");
 const Transaction = require("../model/Transaction");
 const Points = require("../model/Points");
 const referralModel = require("../model/referral");
-const Course = require("../Model/Course");
+const Course = require("../model/Course");
 const UserDb = require("../model/User.db");
 const baseurl = process.env.BASE_URL;
 

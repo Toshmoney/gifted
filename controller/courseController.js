@@ -4,7 +4,7 @@ const Wallet = require("../model/Wallet")
 const Transaction = require("../model/Transaction");
 const Points = require("../model/Points");
 const { dashboardData } = require("../utils");
-const Course = require("../Model/Course");
+const Course = require("../model/Course");
 
 
 const createCourse = async (req, res) => {
