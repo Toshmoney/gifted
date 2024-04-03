@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/VerifyNow.css">
+</head>
+<body>
+    <section class="dashboard-container">
+        <%- include('../partials/nav') %>
+       <!-- mobile dashboard end -->
+        <main>
+            <%- include('../partials/mobileHeader') %>
+           <div class="dashboard-main-top">
+                <h1>Dashboard</h1>
+                <div class="input-bar">
+                    <div>
+                        <img src="images/tabler-icon-bell.png" alt="">
+                    </div>
+                    <div class="profile-picture">
+                        <img src="images/Frame 12.png" alt="profile-picture">
+                    </div>
+                    
+                </div>
+           </div>
+
+           <div class="dash-items">
+                <div class="blue-background">
+                    <div class="welcome-msg">
+                        <h1>KYC VERIFICATION</h1>
+                        <p>Verify Your Identity To Get Started.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="verify-method">
+                <div class="first-verify-method">
+                    <h1>VERIFICATION METHODS</h1>
+                    <div class="method">
+                        <a href=""><div class="id-card">Government ID Card</div></a>
+                        <a href=""><div class="passport">International Passport</div></a>
+                        <a href=""><div class="driver">Driver Lincense</div></a>
+                    </div>
+                    <div class="ctn">
+                        <button>Continue</button>
+                    </div>
+                </div>
+
+                <div class="disclaimer">
+                    <h1>DISCLAIMER</h1>
+                    <div>
+                        <ul>
+                            <li>Your ID Must Be Correspond With Your Name</li>
+                            <li>Your ID Must Be Correspond With Your Name</li>
+                            <li>Your ID Must Be Correspond With Your Name</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </section>
+    
+
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GiftedBainz | Sign in</title>
+    <link rel="stylesheet" href="/css/general.css">
+    <link rel="stylesheet" href="/css/SignIn.css">
+    <link rel="icon" type="image/x-icon" href="/imgz/giftedicon.png">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
+</head>
+<body>
+    <section>
+        <% if (messages.error) { %>
+            <div class="alert alert-danger" role="alert">
+              <%= messages.error %>
+            </div>
+        <% } %>
+        <% if (messages.info) { %>
+            <div class="alert alert-info" role="alert">
+              <%= messages.info %>
+            </div>
+        <% } %>
+        <main>
+            <div><img onclick='window.location.href="https://GiftedBrainz.com/"' class="logo" src="/imgz/gifted.png" alt=""></div>
+
+            <div class="second-main">
+                <form action="/login" method="post" onsubmit="return handleSubmit()">
+                    <h3>Sign in</h3>
+                    <p>Welcome back! Kindly login to your account</p>
+                    <div class="third-main">
+                        <label for="email">Email address</label> <br>
+                        <input type="email" id="email" name="email" placeholder="e.g example@gmail.com" > <br>
+                    </div>
+                    <div class="fourth-main">
+                        <label for="new">password</label><br>
+                        <input type="password" name="password" id="password" placeholder="e.g 12345678"> 
+                    </div>
+                    <div class="flex">
+                    <a class="a-tag" href="/sign-up">Create Account</a>
+                    <a class="a-tag" href="/forgot-password">Forgot password?</a>
+                </div>
+                    <button type="submit">Sign in</button>
+                </form>
+            </div>
+        </main>
+    </section>
+
+    <script src="js/Register.js"></script>
+</body>
+</html>

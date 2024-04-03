@@ -1,0 +1,95 @@
+<div class="history-table">
+    <h2>Recent Users Transactions</h2>
+    <% if (transactions.length> 0) { %>
+        <div class="flex flex-col">
+            <div class="overflow-x-auto">
+                <div class="inline-block min-w-full">
+                    <div class="overflow-hidden">
+                        <table class="min-w-full text-left text-sm font-light">
+                            <thead class="font-medium dark:border-neutral-500 dark:bg-neutral-600">
+                                <tr>
+                                    <th scope="col" class="px-6 py-4">User</th>
+                                    <th scope="col" class="px-6 py-4">Transaction & Ref</th>
+                                    <th scope="col" class="px-6 py-4">Amount (NGN)</th>
+                                    <th scope="col" class="px-6 py-4">Status</th>
+                                    <th scope="col" class="px-6 py-4">Date</th>
+                                    <th scope="col" class="px-6 py-4">Proof</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% transactions.forEach(function(transaction) { %>
+                                    <tr class="bg-white dark:border-neutral-500 dark:bg-neutral-600" style="background-color: white;">
+                                        <td class="whitespace-nowrap px-6 py-4">
+                                            <%= transaction.user.name %>
+                                        </td>
+                                        <td class="whitespace-nowrap px-6 py-4" id="displayText">
+                                            <div class="flex flex-col">
+                                                <%= transaction.description %>
+                                                <% if (transaction.status === 'review'){ %>
+                                                    <span style="background-color: grey; color: white; padding: 2px;">Ref: <%= transaction.reference_number %></span>
+                                                <% } %>
+                                            </div>
+
+                                            <div class="imagePopup">
+                                                <!-- <span class="closeBtn" onclick="displayPopup()">X</span> -->
+                                                <img src="/uploads/<%= transaction.proof %>" alt="Popup Image">
+                                              </div>
+
+                                        </td>
+                                        <td class="whitespace-nowrap px-6 py-4">
+                                            <%= transaction.amount %>
+                                        </td>
+                                        <td class="whitespace-nowrap px-6 py-4">
+                                            <%= transaction.status %>
+                                            <% if (transaction.status === 'review'){ %>
+
+                                                <!-- Approve Trades -->
+                                                <form action="/trades/approve/<%= transaction._id %>" method="post">
+                                                    <button style="background-color: #045089; padding: 5px; color: white; border-radius: 5px;" type="submit">Approve Trade</button>
+                                                </form>
+
+                                                <!-- Reject Trades -->
+                                                <form action="/trades/reject/<%= transaction._id %>" method="post">
+                                                    <button style="background-color: red; padding: 5px; color: white; border-radius: 5px;" type="submit">Reject Trade</button>
+                                                </form>
+                                                <% } %>
+                                        </td>
+                                        <td class="whitespace-nowrap px-6 py-4">
+                                            <div class="flex flex-col">
+                                                <%= transaction.updatedAt %>
+                                                <% if (transaction.proof){ %>
+                                                        <a href="/uploads/<%= transaction.proof %>" style="background-color: goldenrod; padding: 5px; color: white; border-radius: 5px; z-index: 1000; text-decoration: none;" >View</a>
+                                                    <% } %>
+                                            </div>
+                                        </td>
+
+                                        <td class="whitespace-nowrap py-4">
+                                            <% if (transaction.status === 'review'){ %>
+                                                <img style="width: 300px; height: 150px;" src="/uploads/<%= transaction.proof %>" alt="Proof">
+                                            <% } %>
+                                        </td>
+
+                                    </tr>
+                                    <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <% } else { %>
+            <p>No recent transcations</p>
+            <% } %>
+</div>
+
+<script>
+    // Function to display the image popup
+    function displayPopup() {
+      document.querySelector('.imagePopup').classList.toggle('active')
+    }
+  
+    // Function to close the image popup
+    function closePopup() {
+        document.querySelector('.active').classList.toggle('no-active')
+    }
+  </script>

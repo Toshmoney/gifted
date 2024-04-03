@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link
+        rel="icon"
+        type="image/png"
+        sizes="32x32"
+        href="./assets/images/favicon-32x32.png"
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap"
+        rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/home.css">
+    <meta name="description" content="Start learning digital skills and earn money by completing a task
+- GiftedBrainz">
+    <meta name="description" content="GiftedBrainz is an online platform that make you learn digital skills at a very affordable price and let you participate in quiz by testing your skills.">
+    <meta name="keywords" content="GiftedBrainz - Earn money online by particicpating in quiz that partains to your skills">
+    <link rel="icon" type="image/x-icon" href="/imgz/giftedicon.png">
+    <title>GiftedBrainz - Learn Digital Skills Online and Start Making Money by Completing Tasks</title>
+    </head>
+<body>
+    <main>
+        <nav>
+            <div>
+                <img src="/imgz/gifted.png" alt="">
+            </div>
+            <ul>
+                <li>Course</li>
+                <li>Career</li>
+                <li>About Us</li>
+                <% if (user) { %>
+                    <button onclick="window.location.href='/dashboard'">Dashboard</button>
+               <% } else{%>
+                <button onclick="window.location.href='/login'">Sign In</button>
+                <%}%>
+            </ul>
+            <button class="toggle">☰</button>
+        </nav>
+        <div class="mobile-nav">
+            <ul>
+                <li>Home</li>
+                <li>About</li>
+                <li>Services</li>
+                <% if (user) { %>
+                    <button onclick="window.location.href='/dashboard'">Dashboard</button>
+               <% } else{%>
+                <button onclick="window.location.href='/login'">Sign In</button>
+                <%}%>
+            </ul> 
+        </div>
+        <section class="sect1">
+            <div class="text">
+                <h2>We breed and reward critical and independent thinkers</h2>
+                <p>Quiz your way out of Mental Slavery...
+                    <br>
+                All members Learn and Earn substantively...</p>
+                <button onclick="window.location.href='/sign-up'">Get Started</button>
+            </div>
+            <div class="image">
+                <img src="/imgz/dash.png" alt="">
+            </div>
+        </section>
+        <section class="sect2">
+            <h1>About GiftedBrainz</h1>
+            <p>Giftedbrains.ng is a platform where;</p>
+               <p>
+                <ol type="a">
+                    <li>people can come and test their knowledge, add to their knowledge and challenge one another in a daily active Quiz competition and stand a chance to win cash prizes more than #100,000 weekly/monthly respectively or it's equivalent in USDT</li>
+                    <li>You acquire valuable skills and knowledge.</li>
+                    <li>You participate in mind stimulating Quiz contest for amazing prizes.</li>
+                    <li>where you enjoy steady affiliate earnings..</li>
+                    <li>here you engage and connect with intellectuals across the country.</li>
+                    <li>You stand a chance to join our innovative and creative team.</li>
+                </ol>
+               </p>
+                <p>It's an innovation that seeks to teach, nuture, inspire, promote independent and creative thinking. Quiz Questions revolves around various significant disciplines such as; African history, Health, Natural laws, psychology, Life skills, philosophy, parenting among others...
+                
+                knowledge hidden from public domain, that could not made it to the school curriculum be exposed and taught outstandingly. 
+                With our Quizzes, we open your mind to the reality of things.</p>
+                
+                <p>We are raising a new generation of conscious independent thinkers and doers!</p>
+        </section>
+
+        <section class="sect3">
+            <div>
+                <h1>How It's Work</h1>
+            </div>
+            <div class="grid">
+                <div>
+                    <img src="/imgz/pic.png" alt="">
+                    <p>nigerians and other african countries <br class="break"> can come and challenge one another.<br class="break">
+
+                        in a daily active quiz competition and <br class="break"> stand a chance to win cash prize more <br class="break"> than #100,000 weekly/monthly <br class="break"> respectively or it’s equivalent in uSDT.</p>
+                </div>
+                <div>
+                    <img src="/imgz/pics.png" alt="">
+                    <p>you will acquire valuable skills <br> and knowledge in blockchain, <br> De-fi, nFTs, UI/UX Design, <br class="break"> fashion/cosmetic and so on.</p>
+                </div>
+                <div>
+                    <img src="/imgz/phone.png" alt="">
+                    <p>you will participate in intellectual<br class="break"> contest for a life changing prize.<br class="break"> you have the chance to join our<br class="break"> innovative and creative team.</p>
+                </div>
+                <div>
+                    <img src="/imgz/phones.png" alt="">
+                    <p>you enjoy steady affiliate <br class="break"> earnings. refer your friends and <br class="break"> earn 40% affiliate commision.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="sect4">
+            <div class="learn">
+                <div class="one">
+                    <img src="/imgz/Student Male.png" alt="">
+                    <h3>Learn</h3>
+                    <p> you’ll be taught by our experience and qualified teachers, and get update through our website, telegram page and newsletters.</p>
+                    <button>Learn More</button>
+                </div>
+                <div class="two">
+                    <img src="/imgz/win.png" alt="">
+                    <h3>Quiz</h3>
+                    <p>Test your intellectual growth and win weekly/monthly prizes respectively.</p>
+                    <button>Learn More</button>
+                </div>
+                <div class="three">
+                    <img src="/imgz/bag.png" alt="">
+                    <h3>Earn</h3>
+                    <p>you’ll earn reward by daily incentive, affiliate commission and the quiz you completed.</p>
+                    <button>Learn More</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="sect5">
+            <div>
+                <h2>Available Courses</h2>
+            </div>
+            <div class="grids">
+                <div class="faq">
+                    <div class="question">
+                        <h3>1. UI/UX Design</h3>
+                        <svg width="15" height="10" viewBox="0 0 42 25">
+                            <path 
+                                d="M3 3L21 21L39 3"
+                                stroke="white"
+                                stroke-width="7"
+                                stroke-linecap="round"
+                            />
+                        </svg>
+                    </div>
+                    <div class="answer">
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Et, molestiae!</p>
+                    </div>
+                </div>
+                <div class="faq">
+                    <div class="question">
+                        <h3>2. backend web development</h3>
+                        <svg width="15" height="10" viewBox="0 0 42 25">
+                            <path 
+                                d="M3 3L21 21L39 3"
+                                stroke="white"
+                                stroke-width="7"
+                                stroke-linecap="round"
+                            />
+                        </svg>
+                    </div>
+                    <div class="answer">
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Et, molestiae!</p>
+                    </div>
+                </div>
+                <div class="faq">
+                    <div class="question">
+                        <h3>3. front-end web development</h3>
+                        <svg width="15" height="10" viewBox="0 0 42 25">
+                            <path 
+                                d="M3 3L21 21L39 3"
+                                stroke="white"
+                                stroke-width="7"
+                                stroke-linecap="round"
+                            />
+                        </svg>
+                    </div>
+                    <div class="answer">
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Et, molestiae!</p>
+                    </div>
+                </div>
+                <div class="faq">
+                    <div class="question">
+                        <h3>4. page management</h3>
+                        <svg width="15" height="10" viewBox="0 0 42 25">
+                            <path 
+                                d="M3 3L21 21L39 3"
+                                stroke="white"
+                                stroke-width="7"
+                                stroke-linecap="round"
+                            />
+                        </svg>
+                    </div>
+                    <div class="answer">
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Et, molestiae!</p>
+                    </div>
+                </div>
+                <div class="faq">
+                    <div class="question">
+                        <h3>5. advance cryptocurrency</h3>
+                        <svg width="15" height="10" viewBox="0 0 42 25">
+                            <path 
+                                d="M3 3L21 21L39 3"
+                                stroke="white"
+                                stroke-width="7"
+                                stroke-linecap="round"
+                            />
+                        </svg>
+                    </div>
+                    <div class="answer">
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Et, molestiae!</p>
+                    </div>
+                </div>
+                <div class="faq">
+                    <div class="question">
+                        <h3>6. quantum mechanics</h3>
+                        <svg width="15" height="10" viewBox="0 0 42 25">
+                            <path 
+                                d="M3 3L21 21L39 3"
+                                stroke="white"
+                                stroke-width="7"
+                                stroke-linecap="round"
+                            />
+                        </svg>
+                    </div>
+                    <div class="answer">
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Et, molestiae!</p>
+                    </div>
+                </div>
+                <div class="faq">
+                    <div class="question">
+                        <h3>7. graphics design</h3>
+                        <svg width="15" height="10" viewBox="0 0 42 25">
+                            <path 
+                                d="M3 3L21 21L39 3"
+                                stroke="white"
+                                stroke-width="7"
+                                stroke-linecap="round"
+                            />
+                        </svg>
+                    </div>
+                    <div class="answer">
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Et, molestiae!</p>
+                    </div>
+                </div>
+                <div class="faq">
+                    <div class="question">
+                        <h3>8. african health and herb methodology</h3>
+                        <svg width="15" height="10" viewBox="0 0 42 25">
+                            <path 
+                                d="M3 3L21 21L39 3"
+                                stroke="white"
+                                stroke-width="7"
+                                stroke-linecap="round"
+                            />
+                        </svg>
+                    </div>
+                    <div class="answer">
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Et, molestiae!</p>
+                    </div>
+                </div>
+                <div class="faq">
+                    <div class="question">
+                        <h3>9. true africa history</h3>
+                        <svg width="15" height="10" viewBox="0 0 42 25">
+                            <path 
+                                d="M3 3L21 21L39 3"
+                                stroke="white"
+                                stroke-width="7"
+                                stroke-linecap="round"
+                            />
+                        </svg>
+                    </div>
+                    <div class="answer">
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Et, molestiae!</p>
+                    </div>
+                </div>
+                <div class="faq">
+                    <div class="question">
+                        <h3>10. skin care production</h3>
+                        <svg width="15" height="10" viewBox="0 0 42 25">
+                            <path 
+                                d="M3 3L21 21L39 3"
+                                stroke="white"
+                                stroke-width="7"
+                                stroke-linecap="round"
+                            />
+                        </svg>
+                    </div>
+                    <div class="answer">
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Et, molestiae!</p>
+                    </div>
+                </div>
+                <div class="faq">
+                    <div class="question">
+                        <h3>11. deFi & nFTs</h3>
+                        <svg width="15" height="10" viewBox="0 0 42 25">
+                            <path 
+                                d="M3 3L21 21L39 3"
+                                stroke="white"
+                                stroke-width="7"
+                                stroke-linecap="round"
+                            />
+                        </svg>
+                    </div>
+                    <div class="answer">
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Et, molestiae!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+
+        <sectiomn class="sect6">
+            <div>
+                <h3>How To Participate</h3>
+            </div>
+            <div class="grid">
+                <div>
+                    <h2>1. register</h2>
+                    <p>sign up to become a member of gifted brainz.</p>
+                </div>
+                <div>
+                    <h2>2. take a challenge</h2>
+                    <p>particicpate in a challenge. answer 15 question to earn (sQP).</p>
+                </div>
+                <div>
+                    <h2>3. choose your plan</h2>
+                    <p>subscribe directly on the site with weekly plan or monthly plan. </p>
+                </div>
+                <div>
+                    <h2>4. refer and earn</h2>
+                    <p>invite your friend. let them about this platform and you’ll earn 40% affiliate commision.</p>
+                </div>
+            </div>
+        </sectiomn>
+
+        <section class="sect7">
+            <div class="first">
+                <div class="hellos">
+                    <img src="/imgz/card-removebg-preview.png" alt="">
+                </div>
+                <div class="ppp">
+                    <h3>fast withdrawals</h3>
+                     <p>we pay within 10-24hrs to your specific bank account.</p>
+                </div>
+            </div>
+            <div class="second">
+                <div class="hello">
+                    <img src="/imgz/spin.png" alt="">
+                </div>
+                <div class="ppp">
+                    <h3>spin and win </h3>
+                    <p>win amazing price by simply spinning the wheel.</p>
+                </div>
+            </div>
+            <div class="third">
+                <div class="hello">
+                    <img src="/imgz/red.png" alt="">
+                </div>
+                <h2 class="ppp">referrals is not <br class="break"> compulsory</h2>
+            </div>
+        </section>
+
+        <section class="sect8">
+            <div class="cup">
+                <div class="take">
+                    <h2>take quiz and earn  points</h2>
+                    <p>win and earn points to purchase course and <br class="break"> acquire more skills from the experts.</p>
+                    <button>Play Now</button>
+                </div>
+                <div>
+                    <img src="/imgz/cup.png" alt="">
+                </div>
+            </div>
+            <div class="gif">
+                <img src="/imgz/gifted.png" alt="">
+                <div class="mask">
+                    <img src="/imgz/Mask group.png" alt="">
+                    <img src="/imgz/Frame (1).png" alt="">
+                    <img src="/imgz/Frame.png" alt="">
+                </div>
+            </div>
+        </section>
+
+
+        <footer>
+            <div class="footer">
+                <div class="join">
+                    <h2>join our newsletter</h2>
+                    <div class="input">
+                        <input type="email" placeholder="hello@giftedbrainz.ng">
+                        <button>JOIN NOW</button>
+                    </div>
+                </div>
+                <div class="feet">
+                    <div class="list">
+                        <h2>products</h2>
+                        <ul>
+                            <li>course</li>
+                            <li>quiz </li>
+                            <li>refer program</li>
+                            <li>spin rewards</li>
+                        </ul>
+                    </div>
+                    <div class="list">
+                        <h2>about</h2>
+                        <ul>
+                            <li>what we do</li>
+                            <li>our mission</li>
+                            <li>contact us</li>
+                            <li>FAQ</li>
+                            <li>privacy  & policy</li>
+                        </ul>
+                    </div>
+                    <div class="list">
+                        <h2>Resources</h2>
+                        <ul>
+                            <li>Docs</li>
+                            <li>careers</li>
+                            <li>blog</li>
+                        </ul>
+                    </div>
+                </div>
+                <div>
+                    <p><span id="year"></span> Copyright By GiftedBrainz. All Right Reserved.</p>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <script src="/js/home.js"></script>
+    <script>
+        const year = document.getElementById("year");
+        year.innerHTML = new Date().getFullYear()
+    </script>
+</body>
+</html>

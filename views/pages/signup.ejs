@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GiftedBainz | Sign Up</title>
+    <link rel="stylesheet" href="css/SignUp.css">
+    <link rel="icon" type="image/x-icon" href="/imgz/giftedicon.png">
+
+    <!-- <link rel="stylesheet" href="/css/general.css"> -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
+</head>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="js/sign-up.js"></script>
+<body>
+    <section class="all-section">
+        <% if (messages.error) { %>
+            <div class="alert alert-danger" role="alert">
+              <%= messages.error %>
+            </div>
+        <% } %>
+        <% if (messages.info) { %>
+            <div class="alert alert-info" role="alert">
+              <%= messages.info %>
+            </div>
+        <% } %>
+        <div class="everything">
+            <div class="image"><img onclick='window.location.href="https://GiftedBrainz.com/"' src="/imgz/gifted.png" alt=""></div>
+            <div class="cat">
+            <div class="ca">
+                <h2>Create account</h2>
+            </div>
+            
+            <form action="/sign-up" method="post" onsubmit="return validateInputs()">
+                    <div class="formd">
+                    <div class=""> 
+                        <label for="Fullname">Username</label><br>
+                        <input required type="text" name="username" id="username" class="ffn" placeholder="e.g John Doe">
+                    </div>
+                    <div class="">
+                        <label for="EmailAddress">Email address</label><br>
+                        <input required type="text" name="email" class="em" id="email" placeholder="e.g johndoe@gmail.com">
+                    </div>
+                    <div class="">
+                        <label for="EmailAddress">Referral Code</label><br>
+                        <input required type="text" name="referralCode" class="em" id="referralCode" placeholder="e.g tosh">
+                    </div>
+                    <div class="">
+                        <label for="">Plan Type</label><br>
+                        <select name="plan_type" id="" style="padding: 5px;">
+                            <option style="padding: 5px;" value="weekly">Weekly Plan</option>
+                            <option style="padding: 5px;" value="monthly">Monthly Plan</option>
+                        </select>
+                    </div>
+                    <div class="">
+                        <label for="Password">Password</label><br>
+                        <input required type="password"  class="ppw" id="password" name="password" placeholder="e.g 123456">
+                    </div> 
+                    <div class="">
+                        <label for="Password">Confirm Password</label><br>
+                        <input required type="password"  class="ppw" id="password" name="confirmPassword" placeholder="e.g 123456">
+                    </div>   
+                    <h5>By clicking sign up means you agree to our <a href="/terms-condition"> terms of services</a></h5>
+                    <button class="btn">Sign up</button>
+             </div>
+            </form>
+
+            </div>
+            <div class="lw"><h4>Already have an account? <a href="/login">Sign In</a></h4></div>
+        </div>
+    </section>
+</body>
+</html>

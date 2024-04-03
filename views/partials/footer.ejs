@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="/css/footer.css">
+</head>
+<body>
+    <footer>
+        <!-- <div class="footer-logo">
+            <p>GiftedBrainz</p>
+        </div>
+        <div class="footer-menu">
+            <a href=""><p>About us</p></a>
+            <a href=""><p>Support</p></a>
+            <a href=""><p>Terms of services</p></a>
+            <a href=""><p>About us</p></a>
+            <a href=""><p>Privacy & Policy</p></a>
+        </div> -->
+        <div class="footer-copyright">
+            <p>© Copyright <span id="year"></span> GiftedBainz LLC | All Rights Reserved.</p>
+        </div>
+    </footer>
+<script>
+    const year = document.getElementById("year");
+    year.innerHTML = new Date().getFullYear()
+</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8G1QZD83G2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-8G1QZD83G2');
+</script>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GiftedBrainz | Account Settings</title>
+    <link rel="stylesheet" href="/css/adminaside.css">
+    <link rel="stylesheet" href="/css/adminaccount.css">
+    <link rel="stylesheet" href="/css/adminGeneral.css">
+    <link rel="icon" type="image/x-icon" href="/img/logo-img.png">
+
+</head>
+
+<body>
+    <section class="dashboard-container">
+        <%- include('../partials/adminAside') %>
+            <!-- mobile dashboard end -->
+            <main>
+                <%- include('../partials/adminmobileHeader') %>
+                    <div class="dashboard-main-top">
+                        <h1>SETTINGS</h1>
+                    </div>
+
+
+                    <div class="flex-new">
+                        <div class="main-setting">
+                            <div class="second">
+                                <h1>TRADE PRICES</h1>
+                                <div class="inner-1">
+                                    <a href="/admin/trade-plans" class="acct-statement">
+                                        <h1>Reset Trade Price</h1>
+                                    </a>
+                                </div>
+
+                            </div>
+                            <div class="second">
+                                <h1>Manual Funding</h1>
+                                <div class="inner-1">
+                                    <a href="/manual/funding" class="acct-statement">
+                                        <h1>User Manual Funding</h1>
+                                    </a>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex-settings">
+                            <div class="second">
+                                <h1>Assign Role To User</h1>
+                                <div class="inner-1">
+                                    <a href="/role/make-admin" class="acct-statement">
+                                        <h1>Make User an Admin</h1>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="second">
+                                <h1>Revert User Role</h1>
+                                <div class="inner-1">
+                                    <a href="/role/turn-to-user" class="acct-statement">
+                                        <h1>Turn Admin To User</h1>
+                                    </a>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </main>
+    </section>
+
+
+    <script src="/js/dashboard.js"></script>
+</body>
+
+</html>

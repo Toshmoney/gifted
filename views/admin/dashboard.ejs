@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - GiftedBrainz</title>
+    <link rel="stylesheet" href="/css/adminstyle.css">
+    <link rel="stylesheet" href="/css/adminGeneral.css">
+    <link rel="stylesheet" href="/css/adminaside.css">
+    <link rel="stylesheet" href="/css/adminMain.css">
+    <link rel="icon" type="image/x-icon" href="/img/logo-img.png">
+</head>
+
+<body>
+    <section class="dashboard-container">
+        <%- include('../partials/adminAside') %>
+            <main>
+                <%- include('../partials/adminmobileHeader') %>
+                    <div class="dashboard-main-top">
+                        <h1>Admin Dashboard</h1>
+                    </div>
+
+                    <div class="dash-items">
+                        <div class="blue-background">
+                            <div class="welcome-msg">
+                                <h1>WELCOME BACK, <%= user.name %>
+                                </h1>
+                                <p>Track Record all the users transactions on this admin dashboard!</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="airtime-area-adjusted">
+                        <div class="main-airtime">
+                            <a href="/transactions/all">
+                                <div class="icon-box">
+                                    <img src="images/tabler-icon-access-point.png" alt="">
+                                </div>
+                                <div>
+                                    <h3>Total Daily Trans</h3>
+                                    <h3>
+                                        <%= daily %>
+                                    </h3>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="main-airtime">
+                            <a href="">
+                                <div class="icon-box">
+                                    <img src="images/tabler-icon-id.png" alt="">
+                                </div>
+                                <div>
+                                    <h3>Total Daily Purchase</h3>
+                                    <h3>₦<%= purchase %>
+                                    </h3>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="main-airtime">
+                            <a href="/users/all-users">
+                                <div class="icon-box">
+                                    <img src="/images/tabler-icon-address-book.png" alt="">
+                                </div>
+                                <div>
+                                    <h3>All Users</h3>
+                                    <p>
+                                        <%= total_user %> Users
+                                    </p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <%- include('../partials/alltransactions', {transactions: transactions}) %>
+            </main>
+    </section>
+    <script src="js/dashboard.js"></script>
+</body>
+
+</html>

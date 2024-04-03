@@ -1,0 +1,51 @@
+main{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100vh;
+    flex-direction: column;
+}
+
+#paymentForm{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 30%;
+}
+
+.form-group input{
+    border: 2px solid #5852FE;
+    outline: none;
+    width: 100%;
+    height: 5vh;
+    /* padding-left: 5px; */
+    padding: 7px;
+}
+
+label{
+    display: block;
+    font-size: larger;
+}
+.form-submit button{
+    background-color: #5852FE;
+    color: white;
+    font-size: larger;
+    border: none;
+    padding: 7px;
+    border-radius: 5px;
+    padding: 10px 25px;
+    float: right;
+
+}
+
+img{
+    width: 10%;
+}
+
+
+@media screen and (max-width:950px) {
+    #paymentForm{
+        width: 80%;
+    }
+}

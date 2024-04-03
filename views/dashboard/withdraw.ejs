@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GiftedBrainz | Withdraw Funds</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/fundwallet.css" />
+  <link rel="stylesheet" href="/css/general.css">
+  <link rel="icon" type="image/x-icon" href="/img/logo-img.png">
+  <link rel="stylesheet" href="/css/toastr.css">
+</head>
+
+<body>
+  <section>
+
+    <% if (msg.error) { %>
+      <div class="alert alert-danger" role="alert">
+        <%= msg.error %>
+      </div>
+    <% } %>
+    <% if (msg.info) { %>
+        <div class="alert alert-info" role="alert">
+          <%= msg.info %>
+        </div>
+    <% } %>
+
+    <div class="all">
+      <div>
+        <a href=""><img src="/images/back-to-home.png" alt="" /></a>
+      </div>
+      <div>
+        <h1>Withdraw Funds from your WALLET</h1>
+        <div class="border-top"></div>
+      </div>
+      <form id="paymentForm" action="/wallet/withdraw" method="post">
+        <div class="mb-6 flex flex-col">
+          <div>
+            <label for="bankCode">Select from available banks</label>
+              <select class="bankCode" name="bankCode" id="bankCode" value="Select Option" required>
+                <% if(banks){ %> 
+                  <% banks.forEach(bank =>{  %>
+                    <option value="<%= bank.code %>" style="color: black; font-weight: 600;"><%= bank.name %></option>
+                  <% }) %>
+  
+                  <% } %>
+              </select>
+
+
+              <div class="">
+                <label for="accountNumber">Account Number</label>
+                <input class="border border-blue-300" name="accountNmber" type="text" id="accountNumber" required />
+              </div>
+            <p class="font-bold text-xs">Your funds will be sent to : <span id="beneficiary"></span> </p>
+          </div>
+          <div class="">
+            <label for="amount">Amount</label>
+            <input class="border border-blue-300" name="amount" type="number" id="amount" required />
+          </div>
+          <div class="">
+            <label for="email">Transaction Pin</label>
+            <input type="password" name="pin" id="pin" placeholder="New pin">
+          </div>
+          
+
+        </div>
+        <div class="form-submit">
+          <button class="btns" type="submit">Withdraw</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <script>
+    
+
+    const btn = document.querySelector(".btns");
+    btn.addEventListener("click", ()=>{
+      btn.textContent = 'please wait ..';
+    const msg = "<%= msg %>";
+      if(msg?.error || msg?.info){
+      btn.textContent = 'Withdraw'
+    }
+    })
+
+    const inp = document.getElementById("accountNumber");
+    inp.addEventListener("input", async(e)=>{
+    const beneficiary = document.getElementById("beneficiary")
+    const PAYSTACK_SECRET_KEY = "<%= process.env.PAYSTACK_SECRET_KEY %>"
+    const accountNmber = e.target.value;
+    const bankCode = document.getElementById("bankCode").value;
+    const verifybankUrl = `https://api.paystack.co/bank/resolve?account_number=${accountNmber}&bank_code=${bankCode}`;
+    const response = await fetch(verifybankUrl, {
+        method:"GET",
+        headers:{
+          "Authorization": `Bearer ${PAYSTACK_SECRET_KEY}`,
+        }
+      })
+      .then(info => info.json())
+
+      beneficiary.textContent = response?.data?.account_name;
+
+    
+    })
+
+  </script>
+</body>
+
+</html>

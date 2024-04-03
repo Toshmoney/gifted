@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GiftedBainz | Quiz Page</title>
+    <link rel="stylesheet" href="/css/aside.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/Maindashboard.css">
+    <link rel="icon" type="image/x-icon" href="/img/logo-img.png">
+
+    <style>
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+        }
+        table {
+            width: 100%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+        }
+        th {
+            background-color: #045089;
+            color: #fff;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+    <section class="dashboard-container">
+        <%- include('../partials/aside') %>
+        
+    <div class="dashboard-wall">
+        <div class="container">
+            <section class="header">
+                <h1>Quiz Board</h1>
+                <p>This page is meant for showcasing the leading quiz takers and you can also start a new quiz</p>
+                <div style="margin-top: 20px;">
+                    <button onclick="window.location.href='/quiz/take-quiz'" style="padding: 10px 35px; background-color: transparent; color: black; border-radius: 10px; cursor: pointer; border: 2px solid black;">Start a quiz now</button>
+                </div>
+            </section>
+            
+            <div style="margin-top: 20px;">
+                <h1>Quiz Leaderboard</h1>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Score</th>
+                            <th>Reward</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% topUsers.forEach(user => { %>
+                            <tr>
+                                <td><%= user.username %></td>
+                                <td><%= user.quizScores.length > 0 ? user.quizScores[0].score : '0' %></td>
+                                <td><%= user.quizScores.length > 0 ? user.quizScores[0].score : 'N 0.00' %></td>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>            </div>
+            <script src="js/dashboard.js"></script>
+        </div>
+    </div>
+    </section>
+</body>
+</html>
+
+

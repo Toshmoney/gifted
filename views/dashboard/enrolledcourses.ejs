@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/coursepage.css">
+    <link rel="stylesheet" href="/css/output.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enrolled Courses | Gifted Brainz</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <%- include('../partials/aside') %>
+
+    <section class="flex flex-row w-[100%] gap-5 p-5">
+        
+        <div class="every">
+            <div class="top">
+                <div class="head">
+                    <h2>Explore Your Enrolled Course</h2>
+                    <p class="choose">choose from your enrolled courses to learn, and be the best in your niche.</p>
+                </div>
+               
+            </div>
+            <div class=" allmain" style="padding-top: 20px;">
+            <div class="main">
+                
+                <div class="all flex">
+                    
+                    <div class="alltabs1 flex">
+                        <% if(enrolledCourses.length > 0) {%>
+                            <% enrolledCourses.forEach(function(course) { %>
+                        <div class="tab1">
+                            <h3><%= course.title %></h3>
+                            <div class="btns">
+                                <button onclick="window.location.href=`/course/<%=course._id%>`" type="submit" class="nd" >Eneter Classroom</button>
+                            </div>
+                        </div>
+                        <% }); %>
+                    <%}else{%>
+                        <p>You have not purchase any course yet</p>
+                    <%}%>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+</body>
+</html>

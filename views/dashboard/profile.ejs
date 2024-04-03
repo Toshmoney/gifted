@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GiftedBainz | <%=user.name %> Profile</title>
+    <link rel="stylesheet" href="css/profile.css">
+    <link rel="stylesheet" href="css/aside.css">
+    <link rel="icon" type="image/x-icon" href="/img/logo-img.png">
+</head>
+<body>
+    <section class="dashboard-container">
+        <%- include('../partials/aside') %>
+       <!-- mobile end -->
+        <main>
+           <div class="dashboard-main-top">
+                <h1>Profile</h1>
+           </div>
+           <div class="container">
+                <div class="seconde">
+                    <div class="profile">
+                        <div><img style="height: 50px;" src="/imgz/gifted.png" alt="Profile"></div>
+                        <div class="name">
+                            <input class="username" type="text" value="<%= user.name %>">
+                            <img src="/images/tabler-icon-edit.png" alt="">
+                        </div>
+                    </div>
+                            <div class="pro-flex">
+                                <h2 style="text-transform: capitalize;"><%=user.name%>'s Informations</h2>
+                                <p>Email: <%= user.email %></p>
+                                <p>Username: <%= user.name  %></p>
+                                <p>Referred By: <%if(!user.referredBy){%>
+                                    Nill
+                                <%} else {%>
+                                    <%= user.referredBy %>
+                                <%}%>
+                                
+                                </p>
+                            </div>                    
+                </div>
+            </div>
+        </main>
+    <%- include('../partials/footer') %>
+
+    </section>
+    <script src="js/profile.js"></script>
+    <script src="js/dashboard.js"></script>
+
+  </script>
+</body>
+</html>

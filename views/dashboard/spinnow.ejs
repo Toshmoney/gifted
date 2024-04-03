@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 50px;
+            height: 100vh;
+            margin: 0;
+            width: 100%;
+        }
+
+        #wheel-container {
+            position: relative;
+            height: 70vh;
+            text-align: center;
+        }
+        #wheel-container h1{
+            font-size: 40px;
+        }
+        #wheel-container h3{
+            font-size: 18px;
+            color: #5852FE;
+        }
+        #wheel {
+            width: 100%;
+            height: 60vh;
+            /* background-color: #f0f0f0;
+            border-radius: 50%; */
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 3s ease-out;
+        }
+        #wheel img{
+            height: 50vh;
+        }
+        #spin-btn {
+            margin-top: 20px;
+            cursor: pointer;
+            padding: 20px 190px;
+            background-color: #5852FE;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            z-index: 1;
+        }
+
+        #spin-btn:disabled{
+            background-color: gray;
+            cursor: not-allowed;
+        }
+
+        #back{
+            border: none;
+            padding: 8px 20px;
+            background-color: #5852FE;
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            display: none;
+        }
+    </style>
+    <title>Spin the Wheel</title>
+</head>
+<body>
+
+<div id="wheel-container">
+    <h1>Spin The Wheel</h1>
+    <h3 id="disabled">Win And Be Rewarded</h3>
+    <button id="back" onclick="window.location = '/dashboard'">Go back</button>
+    <div id="wheel"><img src="/images/spining.jpg" alt=""></div>
+</div>
+<button id="spin-btn">Spin now</button>
+<div id="msg"></div>
+
+<script>
+    const wheel = document.getElementById('wheel');
+    const msg = document.getElementById('disabled');
+    const back = document.getElementById('back');
+    const spinButton = document.getElementById('spin-btn');
+
+    const scores = [10, 20, 0, 40, 0, 60, 0, 80, 100];
+
+
+    // Check if the user has already spun the wheel today
+    const lastSpinDate = localStorage.getItem('lastSpinDate');
+    if (lastSpinDate) {
+        const today = new Date().toLocaleDateString();
+        if (today === lastSpinDate) {
+            // User has already spun today
+            spinButton.disabled = true;
+            msg.textContent = "You have spinned today, come back 2mao";
+            msg.style.color = 'red';
+            back.style.display = "block"
+
+        }
+    }
+
+    spinButton.addEventListener('click', () => {
+        if (spinButton.disabled) {
+            return;
+        }
+
+        spinButton.disabled = true;
+
+        const randomIndex = Math.floor(Math.random() * scores.length);
+        const selectedScore = scores[randomIndex];
+        const randomRotation = 360 * 5 + (randomIndex * (360 / scores.length));
+        
+        wheel.style.transform = `rotate(${randomRotation}deg)`;
+
+
+        const today = new Date().toLocaleDateString();
+        localStorage.setItem('lastSpinDate', today);
+
+        setTimeout(() => {
+            spinButton.disabled = false;
+
+            const score = Math.floor(randomRotation % 100);
+            alert(`Your score: ${score}`);
+            async function sendScoreToServer() {
+            const serverEndpoint = '/spin-wheel';
+
+            await fetch(serverEndpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ score }),
+            })
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => console.error('Error:', error));
+        }
+
+        sendScoreToServer()
+            window.location.href ="/spin-wheel"
+        }, 3000);
+
+    });
+
+    
+</script>
+
+</body>
+</html>

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PaytoNaira | Trade Giftcard</title>
+  <link rel="stylesheet" href="/css/toastr.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/general.css">
+  <link rel="stylesheet" href="/css/aside.css">
+  <link rel="stylesheet" href="/css/DataPlans.css">
+  <link rel="stylesheet" href="/css/paypal.css">
+  <link rel="icon" type="image/x-icon" href="/img/logo-img.png">
+  
+  <script>
+    function toggleButton() {
+      var button = document.querySelector('.submit-btn');
+      button.innerHTML = "Please wait...";
+      button.disabled = true;
+    }
+    const sub = "<%= submissionSuccessful %>"
+
+    if (sub) {
+      window.onload = function() {
+        var button = document.querySelector('.submit-btn');
+        button.innerHTML = "Sell";
+        button.disabled = false;
+      };
+    }
+  </script>
+
+</head>
+
+<body>
+  <section class="dashboard-container">
+    <%- include('../partials/tradeasides') %>
+
+      <main>
+          <div class="dashboard-main-top">
+            <div>
+              <h1>TRADE GIFTCARD</h1>
+              <p>Select Buy or Sell</p>
+            </div>
+
+            <% if (messages.error) { %>
+              <div class="alert alert-danger" role="alert">
+                <%= messages.error %>
+              </div>
+          <% } %>
+          <% if (messages.info) { %>
+              <div class="alert alert-info" role="alert">
+                <%= messages.info %>
+              </div>
+          <% } %>
+          </div>
+          <div class="bill-payer">
+            <div class="tab">
+                <button class="tablinks" onclick="openTrade(event, 'Buy')">Sell</button>
+                <button class="tablinks" onclick="openTrade(event, 'Sell')">Buy</button>
+            </div>
+        <div id="Buy" class="tabcontent">
+          <h2 class="available"></h2>
+            <h2>Selling Price: NGN <span class="selling"></span> per $</h2> <br>
+            <form class="buy-now" action="/trades/sell-giftcard" method="post" enctype="multipart/form-data" onsubmit="toggleButton()">
+                <div class="form-group">
+                    <div class="choose form-field">
+                        <label class="bold" for="service_id">SELECT GIFT CARDS TYPE</label>
+                        <select class="service_id" name="service_id" id="service_id" value="Select Option" onchange="fetchapi()" required>
+                            <!-- <option value="">Select Option</option> -->
+                            <option value="EBAY">EBAY</option>
+                            <option value="AMAZON">AMAZON</option>
+                            <option value="STEAM" class="steam">STEAM WALLET</option>
+                        </select>
+                    </div>
+
+                    <div class="choose form-field">
+                        <label class="bold" for="currency">SELECT CURRENCY</label>
+                        <select class="currency" name="currency" id="currency" value="Select Option" required>
+                            <!-- <option value="">Select Option</option> -->
+                            <option value="USD">USD</option>
+                            <option value="EUR">EUR</option>
+                            <option value="GBP">GBP</option>
+                            <option value="CAD">CAD</option>
+                            <option value="AUD">AUD</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-field">
+                  <br>
+                  <label for="file" class="bole file-upload-label">UPLOAD GIFT CARD</label>
+                  <input type="file" class="file-upload" name="proof" id="file" accept="image/*" required>
+                  <br>
+                </div>
+
+                <div class="form-group">
+                    <div class="form-field">
+                        <label class="bold" for="amount">AMOUNT</label>
+                        <select class="amount" name="amount" id="amount" required>
+                          <option >Select amount</option>
+                          <option value=20>$20</option>
+                          <option value=50>$50</option>
+                          <option value=100>$100</option>
+                          <option value=150>$150</option>
+                          <option value=200>$200</option>
+                          <option value=500>$500</option>
+                          <option value=1000>$1000</option>
+                      </select>
+                      <p class="font-bold text-xs">You are getting: <span id="total-amount"></span> </p>
+                    </div>
+                    <div class="form-field">
+                        <label class="bold" for="pin">PIN</label>
+                        <input type="password" name="pin" id="pin" placeholder="****" required />
+                    </div>
+                </div>
+              <div class="page-end">
+                <p class="flex gap-6 bold wallet-balance">
+                  Total Bal.<span>
+                    <%= data.balance %>
+                  </span>
+                </p>
+                <div class="ctas">
+                  <button type="submit" class="cta submit submit-btn">Sell</button>
+                </div>
+              </div>
+            </form>
+        </div>
+
+          <div id="Sell" class="tabcontent">
+            <h1>Coming soon ...</h1>
+          </div>
+        </div>
+
+      </main>
+  </section>
+
+  <script src="/js/dashboard.js"></script>
+  <script src="/js/paypal.js"></script>
+  <script src="/js/jquery.js"></script>
+  <script src="/js/toastr.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8G1QZD83G2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-8G1QZD83G2');
+</script>
+
+  <script>
+      
+    async function fetchapi(){
+
+      let service_id;
+
+
+      const steam = document.querySelector(".steam")
+      const serviceId = document.getElementById("service_id").value;
+        const currencySelect = document.getElementById("currency");
+        // If Amazon is selected, limit currency to CAD and USD
+        if (serviceId === "AMAZON" || serviceId === "EBAY") {
+            currencySelect.innerHTML = '<option value="CAD">CAD</option>';
+            service_id = serviceId
+        } else {
+            // Reset to default currencies for other services
+            currencySelect.innerHTML = '<option value="USD">USD</option><option value="EUR">EUR</option><option value="GBP">GBP</option><option value="CAD">CAD</option><option value="AUD">AUD</option>';
+       
+            service_id = serviceId + currencySelect.value;
+        }
+
+      const tradeprice = await fetch(`/api/v1/trade_plan/${service_id}`)
+      .then(res => res.json())
+      console.log(tradeprice.data);
+      let amt = tradeprice.data.dollar_sell_price;
+      let isAvail = tradeprice.data.is_available;
+      const avail = document.querySelector(".available")
+      if(isAvail){
+        avail.textContent='Giftcard service is available';
+      }else{
+        avail.textContent='Giftcard services not available';
+        avail.classList.toggle("not-available")
+      }
+      const buying = document.querySelector(".selling");
+      buying.textContent = amt;
+      const totalField = document.querySelector("#total-amount")
+      const amountField = document.querySelector("#amount")
+      amountField.addEventListener("change", () => {
+      const amount = amountField.value
+      totalField.textContent = Math.round(amt * Number(amount))
+    })
+    }
+
+    fetchapi()
+    
+
+    // const btn = document.querySelector(".submit-btn")
+    // const msg = "<%= messages %>"
+    // btn.addEventListener('click', (event) => {
+    //   event.preventDefault()
+    //   // validatedData()
+    //   // const btn = document.querySelector(".submit-btn");
+    //   btn.textContent = "Please wait .."
+    //   if(msg){
+    //     btn.textContent = 'Sell'
+    //   }
+    // })
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,236 @@
+*{
+    padding: 0%;
+    margin: 0%;
+    box-sizing: border-box;
+}
+
+.top{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    
+    /* gap: 450px; */
+}
+.head{
+    display: flex;
+    flex-direction: column;
+    h2{
+
+    font-size: 20px;
+    font-weight: 600;
+    }
+    h4{
+        font-size: 12px;
+    }
+}
+.choose{
+    width: 19vw;
+    text-transform: capitalize;
+}
+.ndtop{
+    display: flex;
+    /* gap: 670px; */
+    justify-content: space-between;
+    font-weight: 600;
+}
+.tab1{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    h3{
+        width: 12vw;
+        /* background-color: azure; */
+       font-weight: 600;
+       line-height: 20px;
+        text-align: center;
+    }
+    h2{
+        font-size: 20px;
+        font-weight: 700;
+    }
+    img{
+        width: 12vw;
+    }
+    .ui{
+        margin-top: 20px;
+
+    }
+}
+.btns{
+    display: flex;
+    gap: 10px;
+
+}
+.st{
+    background-color: white;
+    border: 2px solid #045089;
+    padding: 8px 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.5s;
+    font-size: 14px;
+    &:hover{
+        color: white;
+        background-color:#045089;
+    }
+}
+.nd{
+    background-color: #045089;
+    border: 2px solid #045089;
+    cursor: pointer;
+    padding: 8px 14px;
+    color: white;
+    border-radius: 10px;
+    transition: 0.5s;
+    font-size: 14px;
+    &:hover{
+        color: #045089;
+        background-color: white;
+    }
+}
+.alltabs1{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+.main{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.every{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    padding: 10px;
+    /* height: 100vh; */
+    overflow-y: scroll;
+}
+::-webkit-scrollbar{
+    display: none;
+}
+.allmain{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.aa{
+    width: 12vw;
+}
+
+@media screen and (max-width: 768px){
+    .top{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        /* justify-content: space-between; */
+        
+        gap: 20px;
+    }
+    .head{
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+        h2{
+        width: 80vw;
+        font-size: 20px;
+        font-weight: 600;
+        }
+        h4{
+            font-size: 12px;
+        }
+    }
+    .choose{
+        width: 75vw;
+        text-transform: capitalize;
+    }
+    .ndtop{
+        display: flex;
+        /* flex-direction: column; */
+        gap: 120px;
+        /* justify-content: space-between; */
+        font-weight: 600;
+    }
+    .tab1{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+        h3{
+            width: 75vw;
+            /* background-color: azure; */
+           font-weight: 600;
+           line-height: 20px;
+            text-align: center;
+        }
+        h2{
+            font-size: 20px;
+            font-weight: 700;
+        }
+        img{
+            width: 40vw;
+        }
+        .ui{
+            margin-top: 0px;
+    
+        }
+    }
+    .btns{
+        display: flex;
+        gap: 10px;
+    
+    }
+    .st{
+        background-color: white;
+        border: 2px solid #045089;
+        padding: 8px 14px;
+        border-radius: 10px;
+        transition: 0.5s;
+        font-size: 14px;
+        &:hover{
+            color: white;
+            background-color:#045089;
+        }
+    }
+    .nd{
+        background-color: #045089;
+        border: 2px solid #045089;
+        padding: 8px 14px;
+        color: white;
+        border-radius: 10px;
+        transition: 0.5s;
+        font-size: 14px;
+        &:hover{
+            color: #045089;
+            background-color: white;
+        }
+    }
+    .alltabs1{
+        display: flex;
+        gap: 30px;
+        flex-direction: column;
+        align-items: center;
+    }
+    .main{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 45px;
+    }
+    .every{
+        display: flex;
+        flex-direction: column;
+        
+    }
+    .allmain{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 40px;
+    }
+ 
+    
+}

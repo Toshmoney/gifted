@@ -1,0 +1,48 @@
+<div class="history-table">
+    <h2>Registered Users</h2>
+    <% if (users.length> 0) { %>
+        <div class="flex flex-col">
+            <div class="overflow-x-auto">
+                <div class="inline-block min-w-full">
+                    <div class="overflow-hidden">
+                        <table class="min-w-full text-left text-sm font-light">
+                            <thead class="font-medium dark:border-neutral-500 dark:bg-neutral-600">
+                                <tr>
+                                    <th scope="col" class="px-6 py-4">Name</th>
+                                    <th scope="col" class="px-6 py-4">Available bal (NGN)</th>
+                                    <th scope="col" class="px-6 py-4">Email</th>
+                                    <th scope="col" class="px-6 py-4">Date Registered</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% users.forEach(function(user) { %>
+                                    <tr class="bg-white dark:border-neutral-500 dark:bg-neutral-600">
+                                        <td class="whitespace-nowrap px-6 py-4">
+                                            <%= user.name %>
+                                        </td>
+                                        <td class="whitespace-nowrap px-6 py-4">
+                                            <%= user.current_balance %>
+                                        </td>
+                                        <td class="whitespace-nowrap px-6 py-4">
+                                            <%= user.email %>
+                                            <span>
+                                                <% if(user.userRole === true){ %>
+                                                     <span>Admin</span>
+                                                <%}%>
+                                            </span>
+                                        </td>
+                                        <td class="whitespace-nowrap px-6 py-4">
+                                            <%= user.createdAt %>
+                                        </td>
+                                    </tr>
+                                    <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <% } else { %>
+            <p>No recent transcations</p>
+            <% } %>
+</div>

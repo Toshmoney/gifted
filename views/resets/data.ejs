@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PayToNaira | Reset Data Prices</title>
+  <link rel="stylesheet" href="/css/toastr.css">
+  <link rel="stylesheet" href="/css/adminstyle.css">
+  <link rel="stylesheet" href="/css/adminGeneral.css">
+  <link rel="stylesheet" href="/css/adminaside.css">
+  <link rel="stylesheet" href="/css/DataPlans.css">
+</head>
+
+<body>
+  <section class="dashboard-container">
+    <%- include('../partials/adminAside') %>
+
+      <main>
+        <%- include('../partials/adminmobileHeader') %>
+          <div class="dashboard-main-top">
+            <h1>UPDATE Trade Price</h1>
+            <div class="input-bar">
+              <div>
+                <img src="/images/tabler-icon-bell.png" alt="">
+              </div>
+              <div class="profile-picture">
+                <img src="/images/Frame 12.png" alt="profile-picture">
+              </div>
+            </div>
+          </div>
+          <div class="bill-payer">
+            <form action="">
+              <div class="form-field">
+                <label class="bold" for="data-size">SIZE</label>
+                <input value="<%= trade_type %>" type="text" name="data-size" id="data-size"
+                  placeholder="Set data price">
+              </div>
+              <div class="form-field">
+                <label class="bold" for="phoneNumber">PRICE</label>
+                <input value="<%= trade_type %>" type="number" name="price" id="price"
+                  placeholder="Set data price">
+              </div>
+              <div class="page-end">
+                <button type="submit" class="cta submit submit-btn">Update Price</button>
+              </div>
+            </form>
+          </div>
+
+      </main>
+  </section>
+
+  <script src="/js/dashboard.js"></script>
+  <script src="/js/jquery.js"></script>
+  <script src="/js/toastr.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/spinandwin.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Classroom | Gifted Brainz</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body class=" font-poppins">
+    <%- include('../partials/aside') %>
+
+    <div class="main-container">
+        <div class="every">
+            
+            <div class="head">
+                <h2><%= course.title %></h2>
+            </div>
+            <div class="all">
+                
+                <div class="up">
+                    <div class="upp">
+                        <h4 class="choose"><%= course.courseDetails %></h4>
+                    </div>
+                </div>
+                
+            </div>
+            <div>
+                    <% course.courseLink.forEach((link) => { %>
+                        <li><a href="/<%= link %>"><%= link %></a></li>
+                      <% }); %>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

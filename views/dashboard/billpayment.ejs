@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GiftedBrainz | Bill-Payments</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/general.css">
+    <link rel="stylesheet" href="/css/aside.css">
+    <link rel="stylesheet" href="/css/PayBills.css">
+</head>
+<body>
+    <section class="dashboard-container">
+        <%- include('../partials/aside') %>
+
+       <!-- mobile dashboard end -->
+        <main>
+            <%- include('../partials/mobileHeader') %>
+           <div class="dashboard-main-top">
+                <h1>PAY BILLS</h1>
+           </div>
+
+           <div class="payment">
+                <h1>AVAILABLE BILLS PAYMENTS</h1>
+                <p>What Do You Like To Get Done?</p>
+           </div>
+
+           <div class="pay-area">
+                <div class="cable">
+                    <div class="service">
+                        <a href="/billpayment/tv">
+                            <div class="service-header">
+                                <div class="icon">
+                                    <span><img class="icon-logo" src="/images/cable_tv.png" alt="Cable bills"></span>
+                                    <h1>Cable TV</h1>
+                                </div>
+                                <span class="toggler" role="img"><img src="/images/Arrow 2.png" alt="open"></span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="cable">
+                    <div class="service">
+                        <a href="/billpayment/electricity">
+                            <div class="service-header">
+                                <div class="icon">
+                                    <span><img class="icon-logo" src="/images/electricity.jpg" alt="Electricity bills"></span>
+                                    <h1>Electricity</h1>
+                                </div>
+                                <span class="toggler" role="img"><img src="/images/Arrow 2.png" alt="open"></span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="cable">
+                    <div class="service">
+                        <a href="/billpayment/exam">
+                            <div class="service-header">
+                                <div class="icon">
+                                    <span><img class="icon-logo" src="/images/exam_pin.jpg" alt="Internet bills"></span>
+                                    <h1>Examination</h1>
+                                </div>
+                                <span class="toggler" role="img"><img src="/images/Arrow 2.png" alt="open"></span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+           </div>
+        </main>
+    </section>
+    <script src="/js/dashboard.js"></script>
+    <script>
+        
+    </script>
+</body>
+</html>

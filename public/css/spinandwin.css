@@ -1,0 +1,149 @@
+*{
+    padding: 0%;
+    margin: 0%;
+    box-sizing: border-box;
+}
+.main-container{
+    width: 100%;
+ 
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    /* padding-top: 30px; */
+    justify-content: center;
+    align-items: center;
+}
+.top{
+    display: flex;
+    align-items: center;
+    /* justify-content: space-between; */
+    
+    gap: 450px;
+}
+.head{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    gap: 10px;
+    align-items: center;
+    line-height: 30px;
+    justify-content: center;
+    h2{
+
+    font-size: 25px;
+    font-weight: 600;
+    }
+    h4{
+        font-size: 12px;
+    }
+}
+.choose{
+    width: 85%;
+    text-transform: capitalize;
+}
+
+
+.nd{
+    background-color: #045089;
+    border: 2px solid #045089;
+    padding: 8px 14px;
+    color: white;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: 0.5s;
+    font-size: 14px;
+    width:10vw;
+    height: 8vh;
+    &:hover{
+        color: #045089;
+        background-color: white;
+    }
+}
+
+.st{
+    background-color: white;
+    border: 2px solid #00000063;
+    padding: 8px 14px;
+    color: black;
+    border-radius: 10px;
+    transition: 0.5s;
+    cursor: pointer;
+    font-size: 14px;
+    width:20vw;
+    height: 8vh;
+    &:hover{
+        color: #045089;
+        background-color: white;
+    }
+}
+
+.every{
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    align-items: center;
+}
+.all{
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    align-items: center;
+}
+.upp{
+    background-color: rgb(235, 234, 234);
+    border: 2px solid black;
+    height: 35vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 35vw;
+    border-radius: 20px;
+}
+.ddown{
+    height: 10vh;
+    width: 28vw;
+    border-radius: 20px;
+    background-color: rgb(235, 234, 234);
+}
+.down{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+.dup, .dd{
+    display: flex;
+   
+    gap: 60px;
+}
+.set{
+    display: flex;
+    width: 100%;
+    gap: 50px;
+    align-items: center;
+}
+.btn{
+    display: flex;
+    gap: 30px;
+}
+
+@media screen and (max-width:950px) {
+    .btn{
+        flex-direction: column;
+    }
+    .nd{
+        width: 100%;
+    }
+    .st{
+        width: 100%;
+    }
+    .upp{
+        width: 80%;
+    }
+    .up{
+        display: flex;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+    }
+}

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GiftedBrainz | Trade Crypto</title>
+  <link rel="stylesheet" href="/css/toastr.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/general.css">
+  <link rel="stylesheet" href="/css/aside.css">
+  <link rel="stylesheet" href="/css/DataPlans.css">
+  <link rel="stylesheet" href="/css/paypal.css">
+  <link rel="icon" type="image/x-icon" href="/img/logo-img.png">
+
+  <script>
+    function toggleButton() {
+      var button = document.querySelector('.submit-btn');
+      button.innerHTML = "Please wait...";
+      button.disabled = true;
+    }
+    const sub = "<%= submissionSuccessful %>"
+
+    if (sub) {
+      window.onload = function() {
+        var button = document.querySelector('.submit-btn');
+        button.innerHTML = "Sell";
+        button.disabled = false;
+      };
+    }
+  </script>
+
+</head>
+
+<body>
+  <section class="dashboard-container">
+    <%- include('../partials/tradeasides') %>
+
+      <main>
+          <div class="dashboard-main-top">
+            <% if (messages.error) { %>
+              <div class="alert alert-danger" role="alert">
+                <%= messages.error %>
+              </div>
+          <% } %>
+          <% if (messages.info) { %>
+              <div class="alert alert-info" role="alert">
+                <%= messages.info %>
+              </div>
+          <% } %>
+            <div>
+              <h1>TRADE CRYPTOCURRENCY</h1>
+              <p>Select Buy or Sell</p>
+            </div>
+          </div>
+          <div class="bill-payer">
+            <div class="tab">
+                <button class="tablinks" onclick="openTrade(event, 'Buy')">Sell</button>
+                <button class="tablinks" onclick="openTrade(event, 'Sell')">Buy</button>
+            </div>
+        <div id="Buy" class="tabcontent">
+          <h2 class="available"></h2>
+          <h2>Selling Price: NGN <span class="selling"></span> per $</h2> <br>
+            <form class="buy-now" action="/trades/sell-crypto" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <div class="choose form-field">
+                        <label class="bold" for="service_id">SELECT TRADE TYPE</label>
+                        <select class="service_id" name="service_id" id="service_id" value="Select Option" onchange="fetchapi()" required>
+                            <!-- <option value="">Select Option</option> -->
+                            <option value="BCH">BCH</option>
+                            <option value="BTC">BTC</option>
+                            <option value="USDT">USDT</option>
+                            <option value="ETH">ETH</option>
+                            <option value="LTC">LTC</option>
+                            <!-- <option value="STEAMWALLET">STEAM WALLET</option> -->
+                        </select>
+                        <br>
+                        <h2>Kindly send your crypto to: <span class="selling-mail"></span></h2>
+                        <br>
+                    </div>
+
+                    <div class="choose form-field">
+                        <label class="bold" for="currency">SELECT CURRENCY</label>
+                        <select class="currency" name="currency" id="currency" value="Select Option" required>
+                            <!-- <option value="">Select Option</option> -->
+                            <option value="USD">USD</option>
+                            <!-- <option value="EUR">EUR</option>
+                            <option value="GBP">GBP</option>
+                            <option value="CAD">CAD</option>
+                            <option value="AUD">AUD</option> -->
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+
+                  <div class="form-field">
+                    <label for="file" class="bole file-upload-label">UPLOAD PROOF OF PAYMENT</label>
+                    <input type="file" class="file-upload" name="proof" id="file" accept="image/*" required>
+                  </div>
+
+                  <div class="form-field">
+                    <label for="trans_id" class="bole">TXN ID / HASH ID</label>
+                    <input type="text" class="trans_id" name="trans_id" id="trans_id"  required>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="form-field">
+                        <label class="bold" for="amount">AMOUNT</label>
+                        <input type="number" name="amount" id="amount" placeholder="Amount here" required>
+                        <p class="font-bold text-xs">You are getting: <span id="total-amount"></span> </p>
+                    </div>
+                    <div class="form-field">
+                        <label class="bold" for="pin">PIN</label>
+                        <input type="password" name="pin" id="pin" placeholder="****" required/>
+                    </div>
+                </div>
+              <div class="page-end">
+                <p class="flex gap-6 bold wallet-balance">
+                  Total Bal.<span>
+                    <%= data.balance %>
+                  </span>
+                </p>
+                <div class="ctas">
+                  <button type="submit" class="cta submit submit-btn">Sell</button>
+                </div>
+              </div>
+            </form>
+        </div>
+
+          <div id="Sell" class="tabcontent">
+            <h1>Coming soon ...</h1>
+          </div>
+        </div>
+
+      </main>
+  </section>
+
+  <script src="/js/dashboard.js"></script>
+  <script src="/js/paypal.js"></script>
+  <script src="/js/jquery.js"></script>
+  <script src="/js/toastr.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8G1QZD83G2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-8G1QZD83G2');
+</script>
+
+  <script>
+
+    async function fetchapi(){
+      const service_id = document.querySelector("#service_id").value
+      const sellingMail = document.querySelector(".selling-mail")
+      const tradeprice = await fetch(`/api/v1/trade_plan/${service_id}`)
+      .then(res => res.json())
+      console.log(tradeprice.data);
+      let amt = tradeprice.data.dollar_sell_price;
+      let isAvail = tradeprice.data.is_available;
+      const avail = document.querySelector(".available")
+      if(isAvail){
+        avail.textContent='Cryptocurrency service is available';
+        sellingMail.textContent = tradeprice.data.selling_mail;
+      }else{
+        avail.textContent='Cryptocurrency services is currently not available';
+        avail.classList.toggle("not-available")
+      }
+      const buying = document.querySelector(".selling");
+      buying.textContent = amt;
+      const totalField = document.querySelector("#total-amount")
+      const amountField = document.querySelector("#amount")
+      console.log(tradeprice);
+      amountField.addEventListener("input", () => {
+        const amount = amountField.value
+      totalField.textContent = Math.round(amt * Number(amount))
+    })
+    }
+
+    fetchapi()
+
+  </script>
+</body>
+
+</html>

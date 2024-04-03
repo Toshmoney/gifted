@@ -1,0 +1,28 @@
+.pay-area{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 40px;
+}
+
+.cable{
+    border: 1px solid #F6F8FE;
+    border-radius: 10px;
+    padding: .5rem 1rem;
+}
+
+.cable .service-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+}
+.icon{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.icon-logo{
+    height: 50px;
+}

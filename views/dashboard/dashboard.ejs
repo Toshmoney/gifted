@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GiftedBainz | Dashboard</title>
+    <link rel="stylesheet" href="/css/aside.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/wallet.css">
+    <link rel="stylesheet" href="css/Maindashboard.css">
+    <link rel="icon" type="image/x-icon" href="/img/logo-img.png">
+
+    
+</head>
+<body>
+    <section class="dashboard-container">
+        <%- include('../partials/aside') %>
+        
+    <div class="dashboard-wall">
+        <div class="container">
+            <section class="header">
+                <h1>Hey <%= user.name %>, <br> Welcome to GiftedBainz</h1>
+                <p>There are many possiblities 
+                    you can achieve with us. 
+                    Let's show you how learning and 
+                    making money is easy.</p>
+            </section>
+            <section class="what-we-offer">
+                <div class="sect-border">
+                    <div class="crypto-img">
+                        <img src="/img/crypto-icon.png" alt="">
+                    </div>
+                    <div class="buy-or-sell">
+                        <h3>Total Points</h3>
+                        <% if(totalPoints > 0) {%>
+                        <p><%= totalPoints%>.0 PTs</p>
+                        <%}else{%>
+                            <p>0 PT</p>
+                        <% } %>
+                    </div>
+                    <div class="icon-button">
+                        <a href=""><img src="/img/next.png" alt=""></a>
+                    </div>
+                </div>
+                <div class="sect-border">
+                    <div class="crypto-img">
+                        <img src="/img/crypto-icon.png" alt="">
+                    </div>
+                    <div class="buy-or-sell">
+                        <h3>Referral Commissions</h3>
+                        <p>NGN <%= referralCommission %></p>
+                    </div>
+                    <div class="icon-button">
+                        <a href=""> <img src="/img/next.png" alt=""> </a>
+                    </div>
+                </div>
+                <div class="sect-border">
+                    <div class="crypto-img">
+                        <img src="/img/crypto-icon.png" alt="">
+                    </div>
+                    <div class="buy-or-sell">
+                        <h3>Total Referred Users</h3>
+                        <p><% if(referredUsernames.length > 0){%>
+                            <%=referredUsernames.length%>
+                            <%}else{%>
+                                0
+                            <%}%>
+                        </p>
+                    </div>
+                    <div class="icon-button">
+                        <a href=""><img src="/img/next.png" alt=""></a>
+                    </div>
+                </div>
+                <a href="">
+                <div class="whatsapp">
+                    <i class="fa fa-whatsapp" style="font-size:30px;color:white"></i>
+                </div>
+                </a>
+            </section>
+            
+            <%- include('../partials/transactions', {transactions: transactions}) %>
+            
+            <script src="js/dashboard.js"></script>
+        </div>
+    </div>
+    </section>
+</body>
+</html>
