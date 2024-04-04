@@ -76,7 +76,7 @@ const confirmReset = async (req, res, next) => {
   const mailOptions = {
     from: process.env.EMAIL_USERNAME,
     to: email,
-    subject: "Password Reset From PayToNaira",
+    subject: "Password Reset From Giftedbrainz",
     text: `Click the following link to reset your password: ${resetLink} \n Ignore if you didn't request for password reset`,
   };
 
@@ -107,7 +107,7 @@ const getPasswordUpdatedPage = async (req, res) => {
   });
   if (!user) {
     req.flash("error", "Password reset token is invalid or has expired.");
-    return res.redirect("/confirmation");
+    return res.redirect("/login");
   }
   res.render("pages/reset", { token: req.params.token, messages });
 };
@@ -119,7 +119,7 @@ const updatePassword = async (req, res) => {
   });
   if (!user) {
     req.flash("error", "Password reset token is invalid or has expired.");
-    return res.redirect("/confirmation");
+    return res.redirect("/login");
   }
   if (req.body.password === req.body.confirm) {
     user.setPassword(req.body.password, (err) => {
@@ -176,7 +176,6 @@ try {
     password,
     plan_type,
     referralCode: username.toLowerCase(),
-    isPaid: false,
   });
 
   // Check if user already exists
@@ -210,7 +209,7 @@ try {
       return res.redirect("/makePayment");
     } catch (error) {
       console.error("Error creating user:", error);
-      req.flash("error", "Error creating user");
+      return req.flash("error", "Error creating user");
       // res.redirect("/sign-up");
     }
   };
@@ -332,18 +331,18 @@ const confirmPayment = async (req, res) => {
     const userRefCode = user.referralCode;
     
     // Retrieve the main user from the database
-    const mainUser = await User.findOne({ referralCode: userRefCode });
+    const mainUser = await User.findOne({ username: req.user.username });
 
     console.log("Main user:", mainUser);
 
-    if (!user) {
+    if (!mainUser) {
       // User not found, handle appropriately
       req.flash("error", "User not found");
       return res.redirect("/makePayment");
     }
 
     // Update the user's isPaid status to true
-    user.isPaid = true;
+    mainUser.isPaid = true;
     await user.save();
 
     console.log("User updated:", user);

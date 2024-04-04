@@ -359,7 +359,7 @@ const assignAdminRole = async(req, res)=>{
     return res.redirect("/role/make-admin");
   }
 
-  user.is_admin = true;
+  user.isAdmin = true;
 
   const name = user.name;
 

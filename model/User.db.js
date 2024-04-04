@@ -42,6 +42,8 @@ const userSchema = new mongoose.Schema(
       required:true,
       enum:['weekly','monthly']
   },
+  resetToken: String,
+  resetExpires: Date,
 
   quizScores: [{
     quizId: mongoose.Schema.Types.ObjectId,
