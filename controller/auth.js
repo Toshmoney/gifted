@@ -207,7 +207,7 @@ try {
       await userPoints.save();
       const userReferral = new referralModel({ user: user._id, referralCode: username.toLowerCase() });
       await userReferral.save();
-      res.redirect("/makePayment");
+      return res.redirect("/makePayment");
     } catch (error) {
       console.error("Error creating user:", error);
       req.flash("error", "Error creating user");
@@ -318,61 +318,63 @@ const confirmPayment = async (req, res) => {
       },
     }).then(response => response.json());
 
-    console.log("res:: ",response);
+    console.log("Paystack response:", response);
 
-    if (response.status === true) {
-      const user = req.user;
-      const referredUser = user.referredBy;
-      const userRefCode = user.referralCode;
-      const mainUser = await User.findOne({ referralCode: userRefCode });
+    if (!response.status) {
+      // Transaction reference not found
+      req.flash("error", "Transaction reference not found");
+      return res.redirect("/makePayment");
+    }
 
-      // Create a commission transaction for the referrer
-      const commissionTransaction = new Transaction({
-        user: referrer.user,
-        amount,
-        service: "subscription",
-        type: "credit",
-        status: "completed",
-        description: `Referral commission earned: ${amount / 100}`,
-        reference_number:reference,
-      });
+    // Transaction reference found, proceed with further processing
+    const user = req.user;
+    const referredUser = user.referredBy;
+    const userRefCode = user.referralCode;
+    
+    // Retrieve the main user from the database
+    const mainUser = await User.findOne({ referralCode: userRefCode });
 
-      // Save the commission transaction and update the referrer
-      await commissionTransaction.save();
+    console.log("Main user:", mainUser);
 
-      // Mark the main user as paid
-      mainUser.isPaid = true;
+    if (!user) {
+      // User not found, handle appropriately
+      req.flash("error", "User not found");
+      return res.redirect("/makePayment");
+    }
 
-      // Save the main user's updated information
-      await mainUser.save();
+    // Update the user's isPaid status to true
+    user.isPaid = true;
+    await user.save();
 
-      if (!referredUser || referredUser !== user.username) {
-        // Avoid self-referrals
-        await user.save();
+    console.log("User updated:", user);
 
-        if (referredUser) {
-          const referrer = await referralModel.findOne({ referralCode: referredUser });
+    if (!referredUser || referredUser !== user.username) {
+      // Avoid self-referrals
+      await user.save();
 
-          if (referrer) {
-            console.log("Referrer: ", referrer);
-            // Update the referrer's referral commission
-            referrer.referralCommission += 1000;
-            await referrer.save();
-          }
+      if (referredUser) {
+        const referrer = await referralModel.findOne({ referralCode: referredUser });
+
+        if (referrer) {
+          console.log("Referrer: ", referrer);
+          // Update the referrer's referral commission
+          referrer.referralCommission += 1000;
+          await referrer.save();
         }
-
-        res.redirect("/dashboard");
-      } else {
-        req.flash("error", "Invalid referral. Payment not processed.");
-        res.redirect("/makePayment");
       }
+
+      return res.redirect("/dashboard");
+    } else {
+      req.flash("error", "Invalid referral. Payment not processed.");
+      return res.redirect("/makePayment");
     }
   } catch (error) {
     console.error("Error confirming payment:", error);
     req.flash("error", "Error confirming payment");
-    res.redirect("/makePayment");
+    return res.redirect("/makePayment");
   }
 };
+
 
 
 

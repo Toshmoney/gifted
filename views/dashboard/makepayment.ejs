@@ -10,17 +10,24 @@
     <main>
       <img src="/images/gifted_logo.png" alt="">
       <h2>Make Payment To Continue</h2>
-      <form id="paymentForm">
+      
+      <% if (typeof errorMessage !== 'undefined' && errorMessage !== null) { %>
+        <div class="error-message">
+          <%= errorMessage %>
+        </div>
+      <% } %>
+
+      <form id="paymentForm" method="POST" action="/confirm-payment">
         <div class="form-group">
           <label for="email">Email Address</label>
-          <input type="email" id="email-address" value="<%=email%>" required />
+          <input type="email" id="email-address" name="email" value="<%= email %>" required />
         </div>
         <div class="form-group">
           <label for="amount">Amount</label>
-          <input type="tel" id="amount" value="<%=amount_to_pay%>" disabled required />
+          <input type="tel" id="amount" name="amount" value="<%= amount_to_pay %>" disabled required />
         </div>
         <div class="form-submit">
-          <button type="submit" onclick="payWithPaystack()"> Pay Now </button>
+          <button type="submit"> Pay Now </button>
         </div>
       </form>
     </main>

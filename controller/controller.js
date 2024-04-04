@@ -22,7 +22,7 @@ const homePage = async (req, res) => {
 
 const dashboard = async (req, res) => {
   const data = await dashboardData(req.user);
-  console.log(data);
+  // console.log(data);
   res.status(200).render("dashboard/dashboard", data);
 };
 
