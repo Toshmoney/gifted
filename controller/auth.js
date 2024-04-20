@@ -193,6 +193,9 @@ try {
       referral.referredUsers.push(user._id)
       referral.referralCommission +=1000;
       await referral.save()
+    }else{
+      req.flash("error", "No one with that referral code");
+     return res.redirect("/sign-up");
     }
   }
 
@@ -254,57 +257,6 @@ const makePayment= (req, res)=>{
   }else{amount_to_pay = 4600}
   res.render('dashboard/makepayment', {amount_to_pay, email, messages})
 };
-
-// const confirmPayment = async(req, res)=>{
-//   const {reference, email} = req.body;
-//   if(!reference){
-//     req.flash("error", "Unable to generate reference code")
-//       return res.redirect('/makePayment')
-//   }
-
-//   const transaction = new Transaction({
-//     user: req.user,
-//     amount: amount / 100,
-//     service: "subscription",
-//     type: "debit",
-//     status: "pending",
-//     description: `Subscription payment of ${amount / 100}`,
-//     reference_number: reference,
-//   });
-
-//   const baseurl = 'https://api.paystack.co/transaction/verify/' + reference;
-
-//   const response = await fetch(baseurl, {
-//       headers:{
-//           Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}`
-//       }
-//   })
-//       .then(response => response.json())
-
-
-//   if(response.status === true){
-//      const user = req.user
-//      const referredUser = user.referredBy
-//      user.isPaid = true;
-//      transaction.status = "completed"
-
-//      await transaction.save()
-
-//      if(!referredUser){
-//       await user.save()
-//       res.redirect("/dashboard")
-//      }else{
-//       const referrer = await referralModel.findOne({referralCode: referredUser})
-//      console.log("referral: ", referrer);
-//      referrer.referralCommission += 1000;
-//      await referrer.save()
-//      await user.save()
-//      }
-
-//   }
-  
-
-// }
 
 const confirmPayment = async (req, res) => {
   const user = req.user;
