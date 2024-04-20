@@ -10,12 +10,23 @@
     <main>
       <img src="/images/gifted_logo.png" alt="">
       <h2>Make Payment To Continue</h2>
-      
-      <% if (typeof errorMessage !== 'undefined' && errorMessage !== null) { %>
+      <% if (messages.error) { %>
+        <div class="alert alert-danger" role="alert">
+          <%= messages.error %>
+        </div>
+      <% } %>
+      <% if (messages.info) { %>
+          <div class="alert alert-info" role="alert">
+            <%= messages.info %>
+          </div>
+      <% } %>
+
+
+      <!-- <% if (typeof errorMessage !== 'undefined' && errorMessage !== null) { %>
         <div class="error-message">
           <%= errorMessage %>
         </div>
-      <% } %>
+      <% } %> -->
 
       <form id="paymentForm" method="POST" action="/confirm-payment">
         <div class="form-group">
@@ -37,13 +48,12 @@
     <script>
       const amountField = document.querySelector("#amount")
       const paymentForm = document.getElementById("paymentForm");
-      const key = "pk_test_e44faf5fa87bcbcc326a7527dc4263d49988a2f2";
       paymentForm.addEventListener("submit", payWithPaystack, false);
       function payWithPaystack(e) {
         e.preventDefault();
         const amount = Number(document.getElementById("amount").value) * 100
         let handler = PaystackPop.setup({
-          key: key,
+          key: "pk_test_99b4eab94e35b73b28e2a3632de5a1bf8a3ad2e5",
           email: document.getElementById("email-address").value,
           amount,
           onClose: function () {

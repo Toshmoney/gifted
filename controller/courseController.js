@@ -6,7 +6,6 @@ const Points = require("../model/Points");
 const { dashboardData } = require("../utils");
 const Course = require("../model/Course");
 
-
 const createCourse = async (req, res) => {
     const { title, price, point, courseLink, courseDetails } = req.body;
 
@@ -204,24 +203,24 @@ const CoursePointpurchase = async(req, res) => {
         }
 
         if (course.purchasedBy.includes(user)) {
-            req.flash("error", 'Course already purchased by this user');
-            return res.redirect(`/my-courses`);
+            req.flash("error", "C'mon, you already purchased this course");
+            return res.redirect(`/my-courses/${courseId}`);
         }
 
         const course_access_point = course.point;
 
         let point = await Points.findOne({ user }) || new Points({ user, points: 0 });
-        const userBalance = point.points;
+        const userPoints = point.points;
 
-        if (Number(userBalance) < Number(course_access_point)) {
+        if (Number(userPoints) < Number(course_access_point)) {
             req.flash("error", "Insufficient points to purchase course");
             return res.redirect('/all-available-courses');
         }
 
         const transaction = new Transaction({
             user: user,
-            old_balance: userBalance,
-            new_balance: userBalance - course_access_point,
+            old_balance: userPoints,
+            new_balance: userPoints - course_access_point,
             amount: course_access_point,
             type: 'debit',
             status: 'completed',
@@ -230,8 +229,7 @@ const CoursePointpurchase = async(req, res) => {
         });
 
         const pointUsed = Number(course_access_point)
-
-        point.points = userBalance - pointUsed;
+        point.points = userPoints - pointUsed;
         course.purchasedBy.push(user);
 
         // Save points, transaction, and course

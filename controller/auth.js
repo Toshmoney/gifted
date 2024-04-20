@@ -170,6 +170,13 @@ try {
     return res.redirect("/sign-up");
   }
 
+   // Check if user already exists
+   const existingUser = await User.findOne({ email: email });
+   if (existingUser) {
+     req.flash("error", "Email already taken");
+     return res.redirect("/sign-up");
+   }
+
   const user = new User({
     email: email.toLowerCase(),
     username: username.toLowerCase(),
@@ -177,13 +184,6 @@ try {
     plan_type,
     referralCode: username.toLowerCase(),
   });
-
-  // Check if user already exists
-  const existingUser = await User.findOne({ email: email });
-  if (existingUser) {
-    req.flash("error", "Email already taken");
-    return res.redirect("/sign-up");
-  }
 
   // Check if user was referred by a referral code
   if (referralCode) {
@@ -237,6 +237,13 @@ const makePayment= (req, res)=>{
   const planType = user.plan_type;
   const email = user.email
 
+  const errorMg = req.flash("error").join(" ");
+  const infoMg = req.flash("info").join(" ");
+  const messages = {
+    error: errorMg,
+    info: infoMg,
+  };
+
   if(!planType){
       req.flash("error", "Sign in to continue");
       return res.redirect("/login")
@@ -245,7 +252,7 @@ const makePayment= (req, res)=>{
   if(planType === 'weekly'){
       amount_to_pay = 2400
   }else{amount_to_pay = 4600}
-  res.render('dashboard/makepayment', {amount_to_pay, email})
+  res.render('dashboard/makepayment', {amount_to_pay, email, messages})
 };
 
 // const confirmPayment = async(req, res)=>{
@@ -300,6 +307,7 @@ const makePayment= (req, res)=>{
 // }
 
 const confirmPayment = async (req, res) => {
+  const user = req.user;
   try {
     const { reference, amount } = req.body;
 
@@ -314,6 +322,7 @@ const confirmPayment = async (req, res) => {
     const response = await fetch(baseurl, {
       headers: {
         Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}`,
+        "content-type":"application/json"
       },
     }).then(response => response.json());
 
@@ -326,7 +335,7 @@ const confirmPayment = async (req, res) => {
     }
 
     // Transaction reference found, proceed with further processing
-    const user = req.user;
+    // const user = req.user;
     const referredUser = user.referredBy;
     const userRefCode = user.referralCode;
     
@@ -343,6 +352,7 @@ const confirmPayment = async (req, res) => {
 
     // Update the user's isPaid status to true
     mainUser.isPaid = true;
+    user.isPaid = true;
     await user.save();
 
     console.log("User updated:", user);
