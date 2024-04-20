@@ -303,9 +303,10 @@ const confirmPayment = async (req, res) => {
     }
 
     // Update the user's isPaid status to true
-    mainUser.isPaid = true;
+    // mainUser.isPaid = true;
     user.isPaid = true;
     await user.save();
+    // await mainUser.save();
 
     console.log("User updated:", user);
 
