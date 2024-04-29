@@ -6,7 +6,7 @@ function isLoggedIn(req, res, next) {
   }
   req.session.requestedUrl = req.originalUrl;
   const requestedUrl = req.originalUrl || "/dashboard";
-  req.flash("info", "your session has expired pls log in");
+  req.flash("info", "Please login to continue ...");
   res.redirect(`/login?redirect=${requestedUrl}`);
 }
 
@@ -24,8 +24,17 @@ function isAdmin(req, res, next) {
   throw new CustomAPIError("unauthorized user", 403);
 }
 
+function hasPaid(req, res, next) {
+  if (req.user?.isPaid) {
+    return next();
+  }
+  req.flash("error", "Please make payment to continue ...");
+ return res.redirect(`/makePayment`);
+}
+
 module.exports = {
   isLoggedIn,
   isAdmin,
   isAuthenticated,
+  hasPaid
 };

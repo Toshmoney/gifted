@@ -13,7 +13,7 @@ const referralSchema = new mongoose.Schema({
   referredUsers: [{ type: mongoose.Schema.Types.ObjectId, ref:"User" }],
   referralCommission: { 
     type: Number, 
-    default: 10
+    default: 0
   },
   }
   );

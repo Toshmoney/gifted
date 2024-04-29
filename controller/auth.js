@@ -171,9 +171,9 @@ try {
   }
 
    // Check if user already exists
-   const existingUser = await User.findOne({ email: email });
+   const existingUser = await User.findOne({email : email.toLowerCase()});
    if (existingUser) {
-     req.flash("error", "Email already taken");
+     req.flash("error", "User with this email already exist");
      return res.redirect("/sign-up");
    }
 
@@ -187,7 +187,7 @@ try {
 
   // Check if user was referred by a referral code
   if (referralCode) {
-    const referral = await referralModel.findOne({ referralCode });
+    const referral = await referralModel.findOne({ referralCode: referralCode.toLowerCase() });
     if (referral) {
       user.referredBy = referralCode;
       referral.referredUsers.push(user._id)
@@ -220,11 +220,11 @@ try {
   // Register user using Passport.js
   User.register(user, password, (err) => {
     if (err) {
-      console.error("Error registering user:", err);
+      // console.error("Error registering user:", err);
       req.flash("error", "Error registering user");
     }
     createUser();
-    return res.redirect("/makePayment");
+    // return res.redirect("/makePayment");
   });
 } catch (error) {
   console.error("Unexpected error:", error);
@@ -256,8 +256,7 @@ const makePayment= (req, res)=>{
       amount_to_pay = 2400
   }else{amount_to_pay = 4600}
   res.render('dashboard/makepayment', {amount_to_pay, email, messages})
-};
-
+}
 const confirmPayment = async (req, res) => {
   const user = req.user;
   try {
@@ -278,8 +277,6 @@ const confirmPayment = async (req, res) => {
       },
     }).then(response => response.json());
 
-    console.log("Paystack response:", response);
-
     if (!response.status) {
       // Transaction reference not found
       req.flash("error", "Transaction reference not found");
@@ -287,14 +284,11 @@ const confirmPayment = async (req, res) => {
     }
 
     // Transaction reference found, proceed with further processing
-    // const user = req.user;
     const referredUser = user.referredBy;
     const userRefCode = user.referralCode;
     
     // Retrieve the main user from the database
     const mainUser = await User.findOne({ username: req.user.username });
-
-    console.log("Main user:", mainUser);
 
     if (!mainUser) {
       // User not found, handle appropriately
@@ -303,10 +297,8 @@ const confirmPayment = async (req, res) => {
     }
 
     // Update the user's isPaid status to true
-    // mainUser.isPaid = true;
     user.isPaid = true;
     await user.save();
-    // await mainUser.save();
 
     console.log("User updated:", user);
 
@@ -318,7 +310,7 @@ const confirmPayment = async (req, res) => {
         const referrer = await referralModel.findOne({ referralCode: referredUser });
 
         if (referrer) {
-          console.log("Referrer: ", referrer);
+          console.log("Referrer: ", referrer.referralCode);
           // Update the referrer's referral commission
           referrer.referralCommission += 1000;
           await referrer.save();

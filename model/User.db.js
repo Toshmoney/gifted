@@ -34,6 +34,10 @@ const userSchema = new mongoose.Schema(
   next_PaymentDate:{
       type:Date
   },
+  amount_to_pay:{
+    type: Number
+  },
+  referralCommissionGiven: { type: Boolean, default: false },
   referredBy: { 
       type: String, 
   },

@@ -69,7 +69,7 @@ const {
 
 const { fetchPackages } = require("../controller/packageController");
 
-const { isLoggedIn, isAdmin } = require("../middleware/authenticate");
+const { isLoggedIn, isAdmin, hasPaid } = require("../middleware/authenticate");
 
 const {
   newUser,
@@ -115,7 +115,7 @@ router.route("/login").post((req, res, next) => {
   passport.authenticate("local", {
     successRedirect: redirectUrl,
     failureRedirect: "/login",
-    failureFlash: "incorrect credientials",
+    failureFlash: "Incorrect credientials",
     failureMessage: true,
   })(req, res, next);
 });
@@ -128,7 +128,7 @@ router.route("/confirmation").post(confirmReset);
 router.route("/reset-password/:token").get(getPasswordUpdatedPage);
 router.route("/reset-password/:token").post(updatePassword);
 router.route("/sign-up").post(newUser);
-router.route("/dashboard").get(isLoggedIn, dashboard);
+router.route("/dashboard").get([isLoggedIn, hasPaid], dashboard);
 router.route("/dashboard").post(dashboard);
 router.route("/airtime").get([isLoggedIn, checkUserPin], airtime);
 router.route("/data").get([isLoggedIn, checkUserPin], dataplan);
