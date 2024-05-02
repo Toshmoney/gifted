@@ -209,6 +209,7 @@ try {
       await userPoints.save();
       const userReferral = new referralModel({ user: user._id, referralCode: username.toLowerCase() });
       await userReferral.save();
+      req.flash("info", "Signed up successfully");
       return res.redirect("/makePayment");
     } catch (error) {
       console.error("Error creating user:", error);
