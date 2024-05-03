@@ -209,7 +209,7 @@ try {
       await userPoints.save();
       const userReferral = new referralModel({ user: user._id, referralCode: username.toLowerCase() });
       await userReferral.save();
-      req.flash("info", "Signed up successfully");
+      req.flash("info", "Signed up successfully ..");
       return res.redirect("/makePayment");
     } catch (error) {
       console.error("Error creating user:", error);
@@ -294,7 +294,7 @@ const confirmPayment = async (req, res) => {
     if (!mainUser) {
       // User not found, handle appropriately
       req.flash("error", "User not found");
-      return res.redirect("/makePayment");
+      return res.redirect("/login");
     }
 
     // Update the user's isPaid status to true
@@ -319,9 +319,6 @@ const confirmPayment = async (req, res) => {
       }
 
       return res.redirect("/dashboard");
-    } else {
-      req.flash("error", "Invalid referral. Payment not processed.");
-      return res.redirect("/makePayment");
     }
   } catch (error) {
     console.error("Error confirming payment:", error);
