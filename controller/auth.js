@@ -225,7 +225,6 @@ try {
       req.flash("error", "Error registering user");
     }
     createUser();
-    // return res.redirect("/makePayment");
   });
 } catch (error) {
   console.error("Unexpected error:", error);
@@ -281,6 +280,7 @@ const confirmPayment = async (req, res) => {
     if (!response.status) {
       // Transaction reference not found
       req.flash("error", "Transaction reference not found");
+      console.log(response);
       return res.redirect("/makePayment");
     }
 
