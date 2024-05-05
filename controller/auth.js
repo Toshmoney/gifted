@@ -164,6 +164,16 @@ try {
     return res.redirect("/sign-up");
   }
 
+  if (password == username) {
+    req.flash("error", "Consider using a strong password");
+    return res.redirect("/sign-up");
+  }
+
+  if (password.length <= 6) {
+    req.flash("error", "Password should be more than 6 characters");
+    return res.redirect("/sign-up");
+  }
+
   // Check required fields
   if (!username || !email || !plan_type) {
     req.flash("error", "Username, email, and plan type are required");
@@ -264,6 +274,7 @@ const confirmPayment = async (req, res) => {
 
     if (!reference) {
       req.flash("error", "Unable to generate reference code");
+      console.log("Unable to generate reference code");
       return res.redirect('/makePayment');
     }
 
@@ -323,7 +334,7 @@ const confirmPayment = async (req, res) => {
   } catch (error) {
     console.error("Error confirming payment:", error);
     req.flash("error", "Error confirming payment");
-    return res.redirect("/makePayment");
+    res.redirect("/makePayment");
   }
 };
 
