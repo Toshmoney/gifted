@@ -168,11 +168,12 @@ try {
     req.flash("error", "Consider using a strong password");
     return res.redirect("/sign-up");
   }
-
-  if (password.length <= 6) {
-    req.flash("error", "Password should be more than 6 characters");
-    return res.redirect("/sign-up");
-  }
+  
+  const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
+    if (!strongPasswordRegex.test(password)) {
+      req.flash("error", "Password should contain at least one uppercase, one lowercase, one number, one special character, and be at least 6 characters long");
+      return res.redirect("/sign-up");
+    }
 
   // Check required fields
   if (!username || !email || !plan_type) {
@@ -324,7 +325,7 @@ const confirmPayment = async (req, res) => {
         if (referrer) {
           console.log("Referrer: ", referrer.referralCode);
           // Update the referrer's referral commission
-          referrer.referralCommission += 1000;
+          referrer.referralCommission += 500;
           await referrer.save();
         }
       }
