@@ -11,6 +11,49 @@
     
     /* gap: 450px; */
 }
+
+.alert {
+    position: fixed;
+    border-width: 5px;
+    opacity: 0;
+    max-width: 320px;
+    background-color: rgb(228, 57, 57);
+    color: aliceblue;
+    padding: 1rem;
+    -webkit-animation: fadeIn 10s;
+    animation: fadeIn 10s;
+    text-transform: capitalize;
+    font-family: 'Raleway', sans-serif;
+}
+
+.alert.info {
+    background-color: aquamarine;
+    -webkit-animation: fadeIn 30s;
+    animation: fadeIn 30s;
+}
+
+@-webkit-keyframes fadeIn {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: .75;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+@keyframes fadeIn {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: .75;
+    }
+    100% {
+        opacity: 0;
+    }
+}
 .head{
     display: flex;
     flex-direction: column;

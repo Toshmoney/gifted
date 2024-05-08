@@ -41,8 +41,15 @@ const createCourse = async (req, res) => {
 
 const getAllCourse =  async(req, res) =>{
     try {
+        const errorMg = req.flash("error").join(" ");
+        const infoMg = req.flash("info").join(" ");
+        const messages = {
+          error: errorMg,
+          info: infoMg,
+        };
+
         const data = await dashboardData(req?.user)
-        res.render("dashboard/courses", data);
+        res.render("dashboard/courses", {data, messages});
       } catch (error) {
         res.status(500).json({ error: "Failed To Fetch All Course" });
       }
@@ -138,7 +145,7 @@ const CourseWalletpurchase = async(req, res) => {
 
         if (!course) {
             req.flash("error", 'Course not found');
-            return res.redirect('/');
+            return res.redirect('/all-available-courses');
         }
 
         if (course.purchasedBy.includes(user)) {
@@ -199,7 +206,7 @@ const CoursePointpurchase = async(req, res) => {
 
         if (!course) {
             req.flash("error", 'Course not found');
-            return res.redirect('/');
+            return res.redirect('/all-available-courses');
         }
 
         if (course.purchasedBy.includes(user)) {
