@@ -102,6 +102,11 @@ const transferToFriends = async(req, res)=>{
       return res.redirect('/transfer-to-friends');
     }
 
+    if (email.toLowerCase() == req.user.email) {
+      req.flash('error', 'You can not send money to yourself');
+      return res.redirect('/transfer-to-friends');
+    }
+
     // Find sender and recipient wallets
     const senderWallet = await Wallet.findOne({ user: sender._id });
     const recipientWallet = await Wallet.findOne({ user: recipient._id });
