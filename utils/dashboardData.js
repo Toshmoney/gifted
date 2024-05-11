@@ -77,12 +77,12 @@ const dashboardData = async (user, is_admin = false, limit = 20) => {
 
   
   const userPoints = await Points.findOne({user: user})
-  const referrals = await referralModel.findOne({user});
-  const courses = await Course.find();
+  const referrals = await referralModel.findOne({user}).sort("-createdAt");
+  const courses = await Course.find().sort("-createdAt");
   const totalPoints = userPoints?.points
   const referralCommission = referrals?.referralCommission
   const allRefUsers = referrals?.referredUsers;
-  const enrolledCourses = await Course.find({ purchasedBy:user._id });
+  const enrolledCourses = await Course.find({ purchasedBy:user._id }).sort("-createdAt");
     // Find the referrer using the referralCode
     const referrer = await referralModel.findOne({ referralCode: user.username });
     let referredUsernames = []

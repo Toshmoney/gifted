@@ -20,7 +20,8 @@ const courseSchema = new Schema({
         type: String,
     },
   purchasedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
-})
+},
+{timestamps:true})
 
 const Course = model("Course", courseSchema);
 

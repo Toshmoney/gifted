@@ -14,8 +14,11 @@ const referralSchema = new mongoose.Schema({
   referralCommission: { 
     type: Number, 
     default: 0
-  },
   }
+  },
+
+  { timestamps: true }
+
   );
 
 

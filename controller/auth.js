@@ -205,7 +205,7 @@ try {
       // referral.referralCommission +=1000;
       await referral.save()
     }else{
-      req.flash("error", "No one with that referral code");
+      req.flash("error", "No one with that referral code, pls contact admin to get one");
      return res.redirect("/sign-up");
     }
   }
@@ -220,7 +220,7 @@ try {
       await userPoints.save();
       const userReferral = new referralModel({ user: user._id, referralCode: username.toLowerCase() });
       await userReferral.save();
-      req.flash("info", "Signed up successfully ..");
+      req.flash("info", "Signed up successfully");
       return res.redirect("/makePayment");
     } catch (error) {
       console.error("Error creating user:", error);
@@ -305,7 +305,7 @@ const confirmPayment = async (req, res) => {
 
     if (!mainUser) {
       // User not found, handle appropriately
-      req.flash("error", "User not found");
+      req.flash("error", "No User Found");
       return res.redirect("/login");
     }
 
