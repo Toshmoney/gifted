@@ -31,7 +31,7 @@
           <input type="tel" id="amount" name="amount" value="<%= amount_to_pay %>" disabled required />
         </div>
         <div class="form-submit">
-          <button type="submit"> Pay Now </button>
+          <button type="submit" class="btn-pay"> Pay Now </button>
         </div>
       </form>
     </main>
@@ -41,6 +41,7 @@
     <script>
       const amountField = document.querySelector("#amount")
       const paymentForm = document.getElementById("paymentForm");
+      const payBtn = document.querySelector(".btn-pay")
       paymentForm.addEventListener("submit", payWithPaystack, false);
       function payWithPaystack(e) {
         e.preventDefault();
@@ -65,11 +66,17 @@
               })
               .catch((error) => {
                 console.log(error?.response?.data || error);
+                payBtn.textContent = "Retry Again";
+                payBtn.style.cursor = "pointer"
               });
+              
           },
+          
         });
   
         handler.openIframe();
+                payBtn.textContent = "Pay Now";
+                payBtn.style.cursor = "pointer"
       }
     </script>
 </body>

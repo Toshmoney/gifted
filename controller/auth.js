@@ -310,8 +310,6 @@ const confirmPayment = async (req, res) => {
     }
 
     // Update the user's isPaid status to true
-    user.isPaid = true;
-    await user.save();
 
     console.log("User updated:", user);
 
@@ -322,7 +320,7 @@ const confirmPayment = async (req, res) => {
       if (referredUser) {
         const referrer = await referralModel.findOne({ referralCode: referredUser });
 
-        if (referrer) {
+        if (referrer && !user.isPaid) {
           console.log("Referrer: ", referrer.referralCode);
           // Update the referrer's referral commission
           referrer.referralCommission += 500;
@@ -330,6 +328,8 @@ const confirmPayment = async (req, res) => {
         }
       }
 
+      user.isPaid = true;
+      await user.save();
       return res.redirect("/dashboard");
     }
   } catch (error) {
