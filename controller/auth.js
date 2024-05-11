@@ -202,7 +202,7 @@ try {
     if (referral) {
       user.referredBy = referralCode;
       referral.referredUsers.push(user._id)
-      referral.referralCommission +=1000;
+      // referral.referralCommission +=1000;
       await referral.save()
     }else{
       req.flash("error", "No one with that referral code");
