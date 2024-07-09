@@ -40,6 +40,9 @@ const confirmPass = async (req, res) => {
 };
 
 const confirmReset = async (req, res, next) => {
+  if (req.body.email) {
+    req.body.email = req.body.email.toLowerCase();
+  }
   const { email } = req.body;
 
   // check if user enter email
@@ -155,6 +158,14 @@ const signout = (req, res, next) => {
 };
 
 const newUser = async (req, res, next) => {
+
+  if (req.body.email) {
+    req.body.email = req.body.email.toLowerCase();
+  }
+
+  if (req.body.username) {
+    req.body.username = req.body.username.toLowerCase();
+  }
   const { plan_type, username, password, email, confirmPassword, referralCode } = req.body;
 
 try {
@@ -189,8 +200,8 @@ try {
    }
 
   const user = new User({
-    email: email.toLowerCase(),
-    username: username.toLowerCase(),
+    email,
+    username,
     password,
     plan_type,
     referralCode: username.toLowerCase(),
