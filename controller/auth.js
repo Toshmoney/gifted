@@ -39,7 +39,7 @@ const confirmPass = async (req, res) => {
   res.status(200).render("pages/confirmation");
 };
 
-const confirmReset = async (req, res, next) => {
+const confirmReset = async (req, res) => {
   if (req.body.email) {
     req.body.email = req.body.email.toLowerCase();
   }
@@ -159,6 +159,8 @@ const signout = (req, res, next) => {
 
 const newUser = async (req, res, next) => {
 
+  try {
+  
   if (req.body.email) {
     req.body.email = req.body.email.toLowerCase();
   }
@@ -167,8 +169,6 @@ const newUser = async (req, res, next) => {
     req.body.username = req.body.username.toLowerCase();
   }
   const { plan_type, username, password, email, confirmPassword, referralCode } = req.body;
-
-try {
   // Check if passwords match
   if (password !== confirmPassword) {
     req.flash("error", "Passwords do not match");

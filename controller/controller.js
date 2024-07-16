@@ -453,7 +453,7 @@ const spinNow = async(req, res)=>{
 }
 
 const createCourses = (req, res)=>{
-  res.render('dashboard/spinnow', data)
+  res.render('admin/createcourse', data)
 }
 
 module.exports = {
