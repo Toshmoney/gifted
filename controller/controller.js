@@ -452,7 +452,8 @@ const spinNow = async(req, res)=>{
   res.render('dashboard/spinnow', data)
 }
 
-const createCourses = (req, res)=>{
+const createCourses = async(req, res)=>{
+  const data = await dashboardData(req?.user);
   res.render('admin/createcourse', data)
 }
 
