@@ -1,42 +1,43 @@
- courseLink, courseDetails
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Interface | GiftedBrainz</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Create A New Course | GiftedBrainz Admin Interface</title>
 </head>
 <body>
-  <h1>Admin Interface</h1>
-  <button onclick="window.location.href='/admin'">Back to admin</button>
-  <form action="/create-course" method="post" class="w-full flex flex-col gap-4">
+  <div class="flex flex-col gap-2 w-full h-[100vh] bg-blue-300 items-center">
+    <h1>Create A New Course</h1>
+  <button onclick="window.location.href='/admin'" class="bg-black px-2 text-white">Back to admin dashboard</button>
+  <form action="/create-course" method="post" class="md:w-[50%] w-[80%] flex flex-col gap-5 h-full justify-center">
     <div class="flex flex-col gap-2">
       <label for="title">Title:</label>
-      <input class="h-[15px] rounded-sm" type="text" id="title" name="title" placeholder="Course title here .." required>
+      <input class="h-10 rounded outline-none px-2" type="text" id="title" name="title" placeholder="Course title here .." required>
     </div>
     <div class="flex flex-col gap-2">
       <label for="price">Course Price in Naira:</label>
-      <input class="h-[15px] rounded-sm" type="number" id="price" name="price" required>
+      <input class="h-10 rounded outline-none px-2" type="number" id="price" name="price" required>
     </div>
 
     <div class="flex flex-col gap-2">
         <label for="price">Course Point:</label>
-        <input class="h-[15px] rounded-sm" type="number" id="point" name="point" required>
+        <input class="h-10 rounded outline-none px-2" type="number" id="point" name="point" required>
     </div>
     <div class="flex flex-col gap-2">
       <label for="courseLink">Course Link:</label>
-      <input class="h-[15px] rounded-sm" type="text" id="courseLink" name="courseLink" required>
+      <input class="h-10 rounded outline-none px-2" type="text" id="courseLink" name="courseLink" required>
     </div>
 
     <div class="flex flex-col gap-2">
         <label for="courseDetails">Course Details:</label>
-        <input class="h-[15px] rounded-sm" type="text" id="courseDetails" name="courseDetails" placeholder="Course details here .." required>
+        <input class="h-20 rounded outline-none px-2" type="text" id="courseDetails" name="courseDetails" placeholder="Course details here .." required>
     </div>
     <div>
       <button type="submit" class="py-[7px] px-[25px] border-none cursor-pointer bg-blue-700 text-white">Post Course</button>
     </div>
   </form>
+  </div>
 </body>
 </html>

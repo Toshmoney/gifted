@@ -6,191 +6,202 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Quiz | Take One</title>
   
-  
   <style>
     body {
-     font-family: 'Arial', sans-serif;
-     background-color: #f5f5f5;
-     margin: 0;
-     padding: 0;
-     display: flex;
-     flex-direction: column;
-     align-items: center;
-     justify-content: center;
-     height: 100vh;
-   }
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
 
-   h1 {
-     color: #333;
-   }
+    h1 {
+      color: #333;
+    }
 
-   #quizContainer {
-     /* background-color: #fff; */
-     border-radius: 10px;
-     padding: 20px;
-     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-     width: 400px;
-     text-align: center;
-   }
+    #quizContainer {
+      background-color: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
 
-   #options input {
-     margin-right: 5px;
-   }
+    #options input[type="radio"] {
+      margin-right: 5px;
+    }
 
-   #submitBtn {
-     margin-top: 10px;
-     background-color: #4caf50;
-     color: #fff;
-     border: none;
-     padding: 10px 20px;
-     font-size: 16px;
-     border-radius: 5px;
-     cursor: pointer;
-   }
+    #submitBtn {
+      margin-top: 10px;
+      background-color: #4caf50;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
 
-   #submitBtn:disabled {
-     background-color: #d3d3d3;
-     cursor: not-allowed;
-   }
+    #submitBtn:disabled {
+      background-color: #d3d3d3;
+      cursor: not-allowed;
+    }
 
-   #submitBtn:active {
-     background-color: #45a049;
-   }
+    #submitBtn:active {
+      background-color: #45a049;
+    }
 
-   #timer {
-     margin-top: 10px;
-     font-size: 18px;
-     color: #333;
-   }
- </style>
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const form = document.getElementById('quizForm');
-    const submitButton = document.getElementById('submitBtn');
-    const timerElement = document.getElementById('timer');
+    #timer {
+      margin-top: 10px;
+      font-size: 18px;
+      color: #333;
+    }
 
-    let formSubmitted = false;
+    button[onclick] {
+      background-color: transparent;
+      border-radius: 10px;
+      padding: 10px 35px;
+      cursor: pointer;
+      border: 1px solid #4caf50;
+      color: #4caf50;
+      transition: background-color 0.3s, color 0.3s;
+    }
 
-    const submitForm = function() {
-      if (formSubmitted) {
-        return;
-      }
+    button[onclick]:hover {
+      background-color: #4caf50;
+      color: #fff;
+    }
+  </style>
 
-      formSubmitted = true;
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const form = document.getElementById('quizForm');
+      const submitButton = document.getElementById('submitBtn');
+      const timerElement = document.getElementById('timer');
 
-      submitButton.disabled = true;
-      submitButton.textContent = 'Please wait...';
+      let formSubmitted = false;
 
-      const formData = new FormData(form);
+      const submitForm = function() {
+        if (formSubmitted) {
+          return;
+        }
 
-      fetch('/quiz/submit-quiz', {
-        method: 'POST',
-        body: formData,
-      })
-      .then(response => response.text())
-      .then(result => {
-        alert(result);
+        formSubmitted = true;
+        submitButton.disabled = true;
+        submitButton.textContent = 'Please wait...';
 
-        // Fetch the next question and update the page
-        fetch('/quiz/next-question')
-          .then(response => response.json())
-          .then(data => {
-            // Check if there are more questions
-            if (data.question) {
-              document.getElementById('question').innerHTML = data.question;
+        const formData = new FormData(form);
 
-              // Update the options in the form
-              const optionsContainer = document.getElementById('options');
-              optionsContainer.innerHTML = '';
-              data.options.forEach((option, index) => {
-                const radio = document.createElement('input');
-                radio.type = 'radio';
-                radio.name = 'answer';
-                radio.value = index;
-                optionsContainer.appendChild(radio);
+        fetch('/quiz/submit-quiz', {
+          method: 'POST',
+          body: formData,
+        })
+        .then(response => response.text())
+        .then(result => {
+          alert(result);
 
-                const label = document.createElement('label');
-                label.textContent = option;
-                optionsContainer.appendChild(label);
+          // Fetch the next question and update the page
+          fetch('/quiz/next-question')
+            .then(response => response.json())
+            .then(data => {
+              if (data.question) {
+                document.getElementById('question').textContent = data.question;
 
-                optionsContainer.appendChild(document.createElement('br'));
-              });
+                const optionsContainer = document.getElementById('options');
+                optionsContainer.innerHTML = '';
+                data.options.forEach((option, index) => {
+                  const radio = document.createElement('input');
+                  radio.type = 'radio';
+                  radio.name = 'answer';
+                  radio.value = index;
+                  optionsContainer.appendChild(radio);
 
-              startTimer();
+                  const label = document.createElement('label');
+                  label.textContent = option;
+                  optionsContainer.appendChild(label);
 
-              submitButton.disabled = false;
-              submitButton.textContent = 'Submit';
-            } else {
-              // Display Quiz is over if there are no more questions
-              document.getElementById('quizContainer').innerHTML = '<h1>Quiz is over</h1>';
-            }
+                  optionsContainer.appendChild(document.createElement('br'));
+                });
 
-            formSubmitted = false;
-          })
-          .catch(error => console.error(error));
-      })
-      .catch(error => console.error(error));
-    };
+                startTimer();
 
-    // Timer countdown logic
-    let countdown = 30;
-    let timerInterval;
+                submitButton.disabled = false;
+                submitButton.textContent = 'Submit';
+              } else {
+                document.getElementById('quizContainer').innerHTML = '<h1>Quiz is over</h1>';
+              }
 
-    const updateTimer = function() {
-      timerElement.textContent = `Time remaining: ${countdown} seconds`;
+              formSubmitted = false;
+            })
+            .catch(error => {
+              console.error(error);
+              alert('An error occurred while fetching the next question. Please try again.');
+            });
+        })
+        .catch(error => {
+          console.error(error);
+          alert('An error occurred while submitting your answer. Please try again.');
+        });
+      };
 
-      if (countdown > 0) {
-        countdown--;
-      } else {
-        // If time is up, submit the form
+      // Timer countdown logic
+      let countdown = 30;
+      let timerInterval;
+
+      const updateTimer = function() {
+        timerElement.textContent = `Time remaining: ${countdown} seconds`;
+
+        if (countdown > 0) {
+          countdown--;
+        } else {
+          submitForm();
+        }
+      };
+
+      const startTimer = function() {
+        clearInterval(timerInterval);
+        countdown = 30;
+        updateTimer();
+        timerInterval = setInterval(updateTimer, 1000);
+      };
+
+      startTimer();
+
+      form.addEventListener('submit', function (event) {
+        event.preventDefault();
         submitForm();
-      }
-    };
+      });
 
-    const startTimer = function() {
-      clearInterval(timerInterval);
-      countdown = 30;
-      updateTimer();
-      timerInterval = setInterval(updateTimer, 1000);
-    };
-
-    startTimer();
-
-    form.addEventListener('submit', function (event) {
-      event.preventDefault();
-      submitForm();
+      submitButton.addEventListener('click', submitForm);
     });
-
-    submitButton.addEventListener('click', function() {
-      submitForm();
-    });
-  });
-</script>
-   
+  </script>
 </head>
 <body>
   <div id="quizContainer">
-    <% if(question){%>
+    <% if (question) { %>
       <h1>Quiz</h1>
       <p id="question"><%= question.question %></p>
       <form id="quizForm">
         <div id="options">
           <% question.options.forEach((option, index) => { %>
             <input type="radio" name="answer" value="<%= index %>">
-            <%= option %><br>
+            <label><%= option %>  <%= index %></label><br>
           <% }); %>
         </div>
         <button type="submit" id="submitBtn">Submit</button>
-        </form>
+      </form>
       <div id="timer"></div>
-    <%}else{%>
+    <% } else { %>
       <h1>No Available Quiz At The Moment!</h1>
-      <button style="background-color: transparent; border-radius: 10px; padding: 10px 35px; cursor: pointer;" onclick="window.location.href='/quiz'">Go back</button>
-    <%}%>
+      <button onclick="window.location.href='/quiz'">Go back</button>
+    <% } %>
   </div>
 </body>
 </html>
-
-
-
-

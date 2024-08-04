@@ -21,7 +21,7 @@ const TransactionSchema = new Schema(
     },
     service: {
       type: String,
-      enum: ["wallet", "subscription", "course"],
+      enum: ["wallet", "subscription", "course", "spin", "quiz"],
     },
     type: {
       type: String,
