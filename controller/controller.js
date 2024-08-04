@@ -13,6 +13,7 @@ const Wallet = require("../model/Wallet");
 const nodemailer = require("nodemailer");
 const referralModel = require("../model/referral");
 const Transaction = require("../model/Transaction");
+const Points = require("../model/Points");
 
 
 const homePage = async (req, res) => {
@@ -351,27 +352,103 @@ const quizPage = async(req, res)=>{
   res.render("dashboard/quizpage", data)
 }
 
-const createQuiz = async(req, res)=>{
+const createQuiz = async (req, res) => {
   try {
     const { question, options, correctOption } = req.body;
 
-    // Convert options to an array
-    const optionsArray = options.split(',');
+    // Ensure all required fields are provided
+    if (!question || !options || !correctOption) {
+      return res.status(400).send('All fields (question, options, correctOption) are required.');
+    }
 
+    // Convert options to an array, trimming any extra spaces
+    const optionsArray = options.split(',').map(option => option.trim());
+
+    // Ensure the correct option index is a valid number and within range
+    const correctOptionIndex = parseInt(correctOption, 10);
+    if (isNaN(correctOptionIndex) || correctOptionIndex < 0 || correctOptionIndex >= optionsArray.length) {
+      return res.status(400).send('Invalid correct option index.');
+    }
+
+    // Create a new question
     const newQuestion = new Question({
       question,
       options: optionsArray,
-      correctOption: parseInt(correctOption, 10),
+      correctOption: correctOptionIndex,
     });
 
     await newQuestion.save();
 
+    // Redirect after successful save
     res.redirect('/quiz/admin-post');
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');
   }
 };
+
+
+const submitQuiz = async(req, res)=>{
+  try {
+    const { answer } = req.body;
+    const userId = req.user._id;
+
+    // Fetch the current question based on the user's session
+    const currentQuestion = await Question.findOne({}).sort({ _id: 1 }); // Change this to track user's progress properly
+
+    if (!currentQuestion) {
+        return res.status(404).send('No Question found.');
+    }
+
+    // Check if the answer is correct
+    const isCorrect = currentQuestion.correctOption === parseInt(answer, 10);
+
+    // Reward the user with points if the answer is correct
+    let pointsEarned = 0;
+    if (isCorrect) {
+        pointsEarned = 10; // Points for a correct answer
+        let userPoints = await Points.findOne({ user: userId });
+        if (!userPoints) {
+            userPoints = new Points({ user: userId, points: pointsEarned });
+        } else {
+            userPoints.points += pointsEarned;
+        }
+        await userPoints.save();
+    }
+
+    // Respond with the result and the next question
+    res.json({
+        correct: isCorrect,
+        pointsEarned
+    });
+
+} catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+}
+}
+
+
+const getNewQuiz = async(req, res)=>{
+  try {
+    // Fetch the next question (you should implement logic to get the actual next question)
+    const nextQuestion = await Question.findOne({}).sort({ _id: 1 }); // Change this to track user's progress properly
+
+    if (nextQuestion) {
+        res.json({
+            question: nextQuestion.question,
+            options: nextQuestion.options
+        });
+    } else {
+        res.json({
+            message: 'No more questions available'
+        });
+    }
+} catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+}
+}
 
 const completeQuiz = async (req, res) => {
   try {
@@ -482,6 +559,10 @@ module.exports = {
   getQuiz,
   createQuiz,
   adminPostQuiz,
+  completeQuiz,
+  getLeadingUser,
+  getNewQuiz,
+  submitQuiz,
 
   aboutPage,
   blog,
@@ -492,4 +573,5 @@ module.exports = {
   spinNow,
   transferToFriends,
   sendToFriends
+
 };

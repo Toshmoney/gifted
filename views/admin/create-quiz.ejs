@@ -5,27 +5,30 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Interface | GiftedBrainz</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Create A New Quiz | GiftedBrainz Admin Dashboard</title>
 </head>
 <body>
-  <h1>Admin Interface</h1>
-  <button onclick="window.location.href='/admin'">Back to admin</button>
-  <form action="/quiz/post-question" method="post" class="w-full flex flex-col gap-4">
+  <div class="flex flex-col gap-2 w-full h-[100vh] bg-blue-300 items-center">
+    <h1>Admin Create A New Quiz</h1>
+  <button onclick="window.location.href='/admin'" class="bg-black text-white px-10 py-4">Back to admin</button>
+  <form action="/quiz/post-question" method="post" class="md:w-[50%] w-[80%] flex flex-col gap-5 h-full justify-center">
     <div class="flex flex-col gap-2">
       <label for="question">Question:</label>
-      <input type="text" id="question" name="question" required>
+      <input type="text" id="question" name="question" required class="h-20 rounded outline-none px-2">
     </div>
     <div class="flex flex-col gap-2">
       <label for="options">Options (comma-separated):</label>
-      <input type="text" id="options" name="options" required>
+      <input type="text" id="options" name="options" required class="h-10 rounded outline-none px-2">
     </div>
     <div class="flex flex-col gap-2">
       <label for="correctOption">Correct Option Index:</label>
-      <input type="number" id="correctOption" name="correctOption" required>
+      <input type="number" id="correctOption" name="correctOption" required class="h-10 rounded outline-none px-2">
     </div>
     <div>
       <button type="submit" class="py-[7px] px-[25px] border-none cursor-pointer bg-blue-700 text-white">Post Question</button>
     </div>
   </form>
+  </div>
 </body>
 </html>
