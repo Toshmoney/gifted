@@ -29,14 +29,12 @@ const createCourse = async (req, res) => {
         });
 
         if (newCourse) {
-            res.json({ "success": "New Course Created", newCourse });
+            res.status(201).json({ message: "New Course Created", newCourse, success:true });
         }
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Server error' });
+        res.status(500).json({ error: error.message });
     }
 }
-
 
 
 const getAllCourse =  async(req, res) =>{
@@ -49,6 +47,8 @@ const getAllCourse =  async(req, res) =>{
         };
 
         const data = await dashboardData(req?.user)
+        console.log({data:data.courses});
+        
         res.render("dashboard/courses", {data, messages});
       } catch (error) {
         res.status(500).json({ error: "Failed To Fetch All Course" });
@@ -57,24 +57,25 @@ const getAllCourse =  async(req, res) =>{
 
 const getCourse = async(req, res) => {
     try {
+
+        const user = req.user;
+    
+        if (!user) {
+            req.flash("error", 'You need to login to continue');
+            return res.redirect('/login');
+        }
+
         const { courseId } = req.params;
         const course = await Course.findById(courseId);
     
         if (!course) {
             req.flash("error", 'Course not found');
-            return res.redirect('/dashboard'); // Redirect to homepage or appropriate page
-        }
-    
-        const user = req.user;
-    
-        if (!user) {
-            req.flash("error", 'You need to login to continue');
-            return res.redirect('/login'); // Redirect to login page
+            return res.redirect('/dashboard');
         }
     
         if (!course.purchasedBy.includes(user._id)) {
             req.flash("error", 'Course not purchased by this user');
-            return res.redirect('/all-available-courses'); // Redirect to homepage or appropriate page
+            return res.redirect('/all-available-courses');
         }
 
         const user_data = {
@@ -92,7 +93,6 @@ const getCourse = async(req, res) => {
         req.flash("info", 'Access granted to the course');
         return res.render("dashboard/courseclass", data);
     } catch (error) {
-        console.error(error);
         req.flash("error", 'Internal Server Error');
         return res.status(500).send('Internal Server Error');
     }

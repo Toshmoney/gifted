@@ -176,8 +176,8 @@ router.route("/course-point-purchase/:courseId").post([isLoggedIn], CoursePointp
 router.route("/course-purchased-user/:courseId").get([isLoggedIn], checkEnrolledUser)
 router.route("/delete-course/:courseId").delete([isLoggedIn, isAdmin], checkEnrolledUser)
 router.route("/update-course/:courseId").get([isLoggedIn, isAdmin], updateCourse)
-router.route("/create-course").get( createCourses)
-router.route("/create-course").post(createCourse)
+router.route("/create-course").get([isLoggedIn, isAdmin], createCourses)
+router.route("/create-course").post([isLoggedIn, isAdmin], createCourse)
 router.route("/my-courses").get(isLoggedIn, myCourses)
 router.route("/transfer-to-friends").post([isLoggedIn], transferToFriends);
 router.route("/transfer-to-friends").get([isLoggedIn], sendToFriends);
