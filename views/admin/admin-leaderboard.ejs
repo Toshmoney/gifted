@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Leaderboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .dashboard-wall {
+            width: 100%;
+            max-width: 800px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 10px 35px;
+            background-color: transparent;
+            color: black;
+            border-radius: 10px;
+            cursor: pointer;
+            border: 2px solid black;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #333;
+            color: white;
+            border-color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            color: #333;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-wall">
+        <div class="container">
+            <section class="header">
+                <h1>Quiz Leaderboard for Admin</h1>
+                <p>Below are the top quiz takers!</p>
+                <div style="margin-top: 20px;">
+                    <button onclick="window.location.href='/admin/setting'">Go back to admin Settings</button>
+                </div>
+            </section>
+            
+            <div style="margin-top: 20px;">
+                <h1>Quiz Leaderboard</h1>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Username</th>
+                            <th>Points</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% topUsers.forEach((entry, index) => { %>
+                            <tr>
+                                <td><%= index + 1 %></td>
+                                <td><%= entry.user.username %></td>
+                                <td><%= entry.points %></td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

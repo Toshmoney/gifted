@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Questions</title>
+    <style>
+        /* Add your styles here */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .action-btn {
+            padding: 5px 10px;
+            margin-right: 5px;
+            text-decoration: none;
+            color: white;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .edit-btn {
+            background-color: #007bff;
+        }
+
+        .delete-btn {
+            background-color: #dc3545;
+        }
+
+        .edit-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .delete-btn:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <h2>All Quiz Questions</h2>
+    <button onclick="window.location.href='/admin'" style="margin-bottom: 20px; cursor: pointer;">Go back to admin dashboard</button>
+    <table>
+        <thead>
+            <tr>
+                <th>Question</th>
+                <th>Options</th>
+                <th>Correct Option</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% questions.forEach(question => { %>
+                <tr>
+                    <td><%= question.question %></td>
+                    <td><%= question.options.join(', ') %></td>
+                    <td><%= question.options[question.correctOption] %></td>
+                    <td>
+                        <a href="/admin/quiz/questions/edit/<%= question._id %>" class="action-btn edit-btn">Edit</a>
+                        <a href="/admin/quiz/questions/delete/<%= question._id %>" class="action-btn delete-btn">Delete</a>
+                    </td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+</body>
+</html>

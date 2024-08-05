@@ -329,12 +329,25 @@ const confirmPayment = async (req, res) => {
       await user.save();
 
       if (referredUser) {
-        const referrer = await referralModel.findOne({ referralCode: referredUser });
+        const referrer = await referralModel.findOne({ referralCode: referredUser }).populate("user");
 
         if (referrer && !user.isPaid) {
-          console.log("Referrer: ", referrer.referralCode);
+          console.log("Referrer: ", referrer.user);
+          console.log("Referrer User Id: ", referrer.user._id);
           // Update the referrer's referral commission
           referrer.referralCommission += 500;
+
+        let transactionDescription = "N" + 500 + " referral commission earned!";
+
+        await Transaction.create({
+            user:referrer.user._id,
+            amount: 500,
+            service: "referral",
+            type: "credit",
+            status: "completed",
+            description: transactionDescription,
+        });
+
           await referrer.save();
         }
       }

@@ -52,6 +52,11 @@ const userSchema = new mongoose.Schema(
   quizScores: [{
     quizId: mongoose.Schema.Types.ObjectId,
     score: Number
+  }],
+  
+  answeredQuestions: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Question'
   }]
   },
   { timestamps: true }

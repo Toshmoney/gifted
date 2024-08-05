@@ -36,6 +36,13 @@ const {
   convertRef,
   transferToFriends,
   sendToFriends,
+  quiz,
+  deleteQuestion,
+  getEditQuestion,
+  postEditQuestion,
+  adminGetAllQuiz,
+  adminLeaderboard,
+  adminGetAllCourses,
 } = require("../controller/controller");
 
 const {
@@ -137,6 +144,7 @@ router.route("/trades").get([isLoggedIn, checkUserPin], trades);
 
 // Quiz
 router.route("/quiz/take-quiz").get([isLoggedIn], getQuiz);
+router.route("/no-new-quiz-available").get([isLoggedIn], quiz);
 router.route("/quiz").get([isLoggedIn], quizPage);
 router.route("/quiz/submit-quiz").post([isLoggedIn], submitQuiz);
 router.route("/quiz/next-question").get([isLoggedIn], getNewQuiz);
@@ -191,6 +199,12 @@ router.route("/transfer-to-friends").get([isLoggedIn], sendToFriends);
 router.route("/admin").get([isLoggedIn, isAdmin], adminDashboard);
 router.route("/quiz/admin-post").get([isLoggedIn, isAdmin], adminPostQuiz);
 router.route("/quiz/post-question").post([isLoggedIn, isAdmin], createQuiz);
+router.route("/admin/quiz/questions").get([isLoggedIn, isAdmin], adminGetAllQuiz);
+router.route("/admin/all-courses").get([isLoggedIn, isAdmin], adminGetAllCourses);
+router.route("/admin/leaderboard").get([isLoggedIn, isAdmin], adminLeaderboard);
+router.route("/admin/quiz/questions/delete/:id").get([isLoggedIn, isAdmin], deleteQuestion);
+router.route("/admin/quiz/questions/edit/:id").get([isLoggedIn, isAdmin], getEditQuestion);
+router.route("/admin/quiz/questions/edit/:id").post([isLoggedIn, isAdmin], postEditQuestion);
 router.route('/makePayment').get([isLoggedIn],makePayment)
 router.route('/confirm-payment').post([isLoggedIn],confirmPayment)
 router.route("/manual/funding").get([isLoggedIn, isAdmin], adminManualFunding);
