@@ -78,7 +78,7 @@ const {
 
 const { fetchPackages } = require("../controller/packageController");
 
-const { isLoggedIn, isAdmin, hasPaid } = require("../middleware/authenticate");
+const { isLoggedIn, isAdmin, hasPaid, checkSubscription } = require("../middleware/authenticate");
 
 const {
   newUser,
@@ -174,15 +174,15 @@ router.route("/wallet/verify-payment").post(isLoggedIn, fundWalletVerify);
 router.route("/wallet/fund-manual").post([isLoggedIn, isAdmin], addFundsManually);
 
 // Spin only
-router.route('/spin-wheel').get([isLoggedIn],spinNow)
-router.route('/spin-wheel').post([isLoggedIn],spintheWheel)
-router.route('/spin').get([isLoggedIn],spin);
+router.route('/spin-wheel').get([isLoggedIn, checkSubscription],spinNow)
+router.route('/spin-wheel').post([isLoggedIn, checkSubscription],spintheWheel)
+router.route('/spin').get([isLoggedIn, checkSubscription],spin);
 
 // Course Only;
 router.route('/all-available-courses').get([isLoggedIn],getAllCourse);
-router.route("/course/:courseId").get([isLoggedIn], getCourse)
-router.route("/course-wallet-purchase/:courseId").post([isLoggedIn], CourseWalletpurchase)
-router.route("/course-point-purchase/:courseId").post([isLoggedIn], CoursePointpurchase)
+router.route("/course/:courseId").get([isLoggedIn, checkSubscription], getCourse)
+router.route("/course-wallet-purchase/:courseId").post([isLoggedIn, checkSubscription], CourseWalletpurchase)
+router.route("/course-point-purchase/:courseId").post([isLoggedIn, checkSubscription], CoursePointpurchase)
 router.route("/course-purchased-user/:courseId").get([isLoggedIn], checkEnrolledUser)
 router.route("/delete-course/:courseId").delete([isLoggedIn, isAdmin], checkEnrolledUser)
 router.route("/update-course/:courseId").get([isLoggedIn, isAdmin], updateCourse)

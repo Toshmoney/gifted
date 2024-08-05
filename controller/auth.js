@@ -3,6 +3,7 @@ const User = require("../model/User.db");
 const Wallet = require("../model/Wallet");
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
+const moment = require('moment');
 const ejs = require('ejs');
 const fs = require('fs');
 const referralModel = require("../model/referral");
@@ -256,7 +257,7 @@ const newUser = async (req, res, next) => {
 
 };
 
-const makePayment= (req, res)=>{
+const makePayment = async(req, res)=>{
   let amount_to_pay;
   const user = req.user
   const planType = user.plan_type;
@@ -274,15 +275,35 @@ const makePayment= (req, res)=>{
       return res.redirect("/login")
   }
 
+  const currentDate = new Date();
+  let newPaymentDate;
+
   if(planType === 'weekly'){
-      amount_to_pay = 2400
-  }else{amount_to_pay = 4600}
-  res.render('dashboard/makepayment', {amount_to_pay, email, messages})
+      amount_to_pay = 2400;
+      newPaymentDate = moment(currentDate).add(7, 'days').toDate();
+  }else{
+    amount_to_pay = 4600
+    newPaymentDate = moment(currentDate).add(1, 'month').toDate();
+  }
+
+
+  // Ensure the newPaymentDate is a valid date before setting it
+  if (newPaymentDate && newPaymentDate instanceof Date && !isNaN(newPaymentDate)) {
+    console.log("Assigning next_PaymentDate:", newPaymentDate);  // Debugging log
+    user.next_PaymentDate = newPaymentDate;
+} else {
+    console.error('Invalid date for next_PaymentDate:', newPaymentDate);
+    return res.status(500).json({ msg: 'Failed to generate valid next_PaymentDate' });
+}
+
+await user.save();
+
+  res.render('dashboard/makepayment', {amount_to_pay, email, newPaymentDate, messages})
 }
 const confirmPayment = async (req, res) => {
   const user = req.user;
   try {
-    const { reference, amount } = req.body;
+    const { reference, amount, newPaymentDate } = req.body;
 
     if (!reference) {
       req.flash("error", "Unable to generate reference code");
@@ -340,7 +361,7 @@ const confirmPayment = async (req, res) => {
         let transactionDescription = "N" + 500 + " referral commission earned!";
 
         await Transaction.create({
-            user:referrer.user._id,
+            user:referrer.user,
             amount: 500,
             service: "referral",
             type: "credit",
@@ -351,9 +372,11 @@ const confirmPayment = async (req, res) => {
           await referrer.save();
         }
       }
-
+      user.next_PaymentDate = newPaymentDate;
       user.isPaid = true;
+      console.log("Your next payment date is: ", user.next_PaymentDate);
       await user.save();
+      
       return res.redirect("/dashboard");
     }
   } catch (error) {

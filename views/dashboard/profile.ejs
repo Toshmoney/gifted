@@ -30,6 +30,7 @@
                                 <h2 style="text-transform: capitalize;"><%=user.name%>'s Informations</h2>
                                 <p>Email: <%= user.email %></p>
                                 <p>Username: <%= user.name  %></p>
+                                <p>Your Next Payment Date: <%= user.nextPaymentDate  %></p>
                                 <p>Referred By: <%if(!user.referredBy){%>
                                     Nill
                                 <%} else {%>
