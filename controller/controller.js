@@ -666,6 +666,13 @@ const spin = async(req, res)=>{
 
 const spinNow = async(req, res)=>{
   const data = await dashboardData(req?.user);
+  const errorMg = req.flash("error").join(" ");
+  const infoMg = req.flash("info").join(" ");
+  const messages = {
+    error: errorMg,
+    info: infoMg,
+  };
+
   res.render('dashboard/spinnow', data)
 }
 
