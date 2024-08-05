@@ -56,7 +56,7 @@ const adminTrans = async (req, res) => {
 
   let transactions = await Transaction.find()
     .sort("-createdAt")
-    .populate("user", "name email _id");
+    .populate("user", "username email _id");
   transactions = transactions.map((item) => {
     const transaction = item.toObject();
     return {

@@ -13,14 +13,13 @@
                                     <th scope="col" class="px-6 py-4">Amount (NGN)</th>
                                     <th scope="col" class="px-6 py-4">Status</th>
                                     <th scope="col" class="px-6 py-4">Date</th>
-                                    <th scope="col" class="px-6 py-4">Proof</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <% transactions.forEach(function(transaction) { %>
                                     <tr class="bg-white dark:border-neutral-500 dark:bg-neutral-600" style="background-color: white;">
                                         <td class="whitespace-nowrap px-6 py-4">
-                                            <%= transaction.user?.name %>
+                                            <%= transaction.user.username %>
                                         </td>
                                         <td class="whitespace-nowrap px-6 py-4" id="displayText">
                                             <div class="flex flex-col">
@@ -57,9 +56,6 @@
                                         <td class="whitespace-nowrap px-6 py-4">
                                             <div class="flex flex-col">
                                                 <%= transaction.updatedAt %>
-                                                <% if (transaction.proof){ %>
-                                                        <a href="/uploads/<%= transaction.proof %>" style="background-color: goldenrod; padding: 5px; color: white; border-radius: 5px; z-index: 1000; text-decoration: none;" >View</a>
-                                                    <% } %>
                                             </div>
                                         </td>
 
