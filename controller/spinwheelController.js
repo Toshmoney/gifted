@@ -25,7 +25,7 @@ const spintheWheel = async (req, res, next) => {
         await userPoints.save();
 
         await Transaction.create({
-            user: user._id,
+            user: user,
             amount: score,
             service: "spin",
             type: "credit",

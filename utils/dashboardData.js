@@ -54,10 +54,10 @@ const fetchUserTransactions = async (userId, limit = 20) => {
 const dashboardData = async (user, is_admin = false, limit = 20) => {
   const topUsers = await Points.find().sort({ points: -1 }).limit(10).populate('user');
 
-
   const userWallet = await Wallet.findOne({
     user: user._id,
   });
+
   let trxns = [];
   if (is_admin) {
     trxns = await Transaction.find()
@@ -76,29 +76,31 @@ const dashboardData = async (user, is_admin = false, limit = 20) => {
     trxns = await fetchUserTransactions(user._id, limit);
   }  
   
-  const userPoints = await Points.findOne({user: user})
+  const userPoints = await Points.findOne({user: user});
   const referrals = await referralModel.findOne({user}).sort("-createdAt");
   const courses = await Course.find().sort("-createdAt");
-  const totalPoints = userPoints?.points
-  const referralCommission = referrals?.referralCommission
+  const totalPoints = userPoints?.points;
+  const referralCommission = referrals?.referralCommission;
   const allRefUsers = referrals?.referredUsers;
-  const enrolledCourses = await Course.find({ purchasedBy:user._id }).sort("-createdAt");
-    // Find the referrer using the referralCode
-    const referrer = await referralModel.findOne({ referralCode: user.username });
-    let referredUsernames = []
+  const enrolledCourses = await Course.find({ purchasedBy: user._id }).sort("-createdAt");
+  
+  // Find the referrer using the referralCode
+  const referrer = await referralModel.findOne({ referralCode: user.username });
+  let referredUsernames = [];
 
-    if (referrer) {
-      // Populate the referredUsers array with user documents
-      await referrer.populate('referredUsers')
+  if (referrer) {
+    // Populate the referredUsers array with user documents
+    await referrer.populate('referredUsers');
 
-      // Extract the usernames from the populated referredUsers array
-      referredUsernames = referrer.referredUsers.map(user => user.username);
-    }
+    // Extract the usernames from the populated referredUsers array
+    referredUsernames = referrer.referredUsers.map(user => user.username);
+  }
 
   const user_data = {
     name: user.username,
     email: user.email,
-    referredBy: user?.referredBy
+    referredBy: user?.referredBy,
+    nextPaymentDate: user.next_PaymentDate ? user.next_PaymentDate.toDateString() : 'N/A' // Format date or show 'N/A'
   };
 
   const data = {
@@ -111,12 +113,15 @@ const dashboardData = async (user, is_admin = false, limit = 20) => {
     topUsers,
     enrolledCourses
   };
+
   if (userWallet) {
     user_data.balance = userWallet.current_balance;
     data.balance = userWallet.current_balance;
   }
+  
   return data;
 };
+
 
 module.exports = {
   dashboardData,
