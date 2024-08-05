@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Question</title>
+    <style>
+        /* Add your styles here */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"], input[type="number"], textarea {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h2>Edit Question</h2>
+    <form action="/admin/quiz/questions/edit/<%= question._id %>" method="POST">
+        <div class="form-group">
+            <label for="question">Question:</label>
+            <input type="text" id="question" name="question" value="<%= question.question %>" required>
+        </div>
+        <div class="form-group">
+            <label for="options">Options (comma-separated):</label>
+            <input type="text" id="options" name="options" value="<%= question.options.join(', ') %>" required>
+        </div>
+        <div class="form-group">
+            <label for="correctOption">Correct Option Index:</label>
+            <input type="number" id="correctOption" name="correctOption" value="<%= question.correctOption %>" required>
+        </div>
+        <button type="submit">Update Question</button>
+    </form>
+</body>
+</html>

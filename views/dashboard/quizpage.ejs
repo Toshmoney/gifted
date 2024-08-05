@@ -57,19 +57,19 @@
                 <table>
                     <thead>
                         <tr>
+                            <th>Rank</th>
                             <th>Username</th>
-                            <th>Score</th>
-                            <th>Reward</th>
+                            <th>Points</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <% topUsers.forEach(user => { %>
+                        <% topUsers.forEach((entry, index) => { %>
                             <tr>
-                                <td><%= user.username %></td>
-                                <td><%= user.quizScores.length > 0 ? user.quizScores[0].score : '0' %></td>
-                                <td><%= user.quizScores.length > 0 ? user.quizScores[0].score : 'N 0.00' %></td>
+                              <td><%= index + 1 %></td>
+                              <td><%= entry.user.username %></td>
+                              <td><%= entry.points %></td>
                             </tr>
-                        <% }); %>
+                          <% }) %>
                     </tbody>
                 </table>            </div>
             <script src="js/dashboard.js"></script>

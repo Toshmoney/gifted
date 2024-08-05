@@ -14,6 +14,7 @@ const nodemailer = require("nodemailer");
 const referralModel = require("../model/referral");
 const Transaction = require("../model/Transaction");
 const Points = require("../model/Points");
+const Course = require("../model/Course");
 
 
 const homePage = async (req, res) => {
@@ -335,10 +336,83 @@ const termsCondition = async (req, res) => {
   res.status(200).render("pages/terms-condition", {user});
 };
 
+// Admin get all courses
+
+const adminGetAllCourses = async (req, res) => {
+  try {
+    const courses = await Course.find().sort({ createdAt: -1 });
+    res.render('admin/all-courses', { courses });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+};
+
+// Edit course page
+
+const getEditCourse = async (req, res) => {
+  try {
+    const courseId = req.params.id;
+    const course = await Course.findById(courseId);
+    if (!course) {
+      return res.status(404).send('Course not found');
+    }
+    res.render('admin/edit-course', { course });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+};
+
+// Edit course
+
+const postEditCourse = async (req, res) => {
+  try {
+    const courseId = req.params.id;
+    const { title, price, point, courseDetails, courseLink } = req.body;
+
+    const updatedCourse = await Course.findByIdAndUpdate(
+      courseId,
+      {
+        title,
+        price,
+        point,
+        courseDetails,
+        courseLink: courseLink.split(',').map(link => link.trim())
+      },
+      { new: true }
+    );
+
+    if (!updatedCourse) {
+      return res.status(404).send('Course not found');
+    }
+
+    res.redirect('/admin/all-courses');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+};
+
+const quiz = (req, res)=>{
+  res.render("dashboard/noquiz")
+}
+
 const getQuiz = async(req, res)=>{
   try {
     // Fetch a random question from the database
-    const randomQuestion = await Question.findOne().skip(Math.floor(Math.random() * await Question.countDocuments()));
+    const randomQuestion = await Question.findOne({
+      _id: { $nin: req.user.answeredQuestions }
+    }).sort({ createdAt: 1 });
+
+    if (!randomQuestion) {
+      return res.redirect('/no-new-quiz-available');
+    }
+
+    await User.findByIdAndUpdate(req.user._id, {
+      $push: { answeredQuestions: randomQuestion._id }
+    });
+
 
     res.render('dashboard/quiz', { question: randomQuestion });
   } catch (error) {
@@ -347,6 +421,7 @@ const getQuiz = async(req, res)=>{
   }
 }
 
+// Quiz Leader Board
 const quizPage = async(req, res)=>{
   const data = await dashboardData(req?.user);
   res.render("dashboard/quizpage", data)
@@ -390,42 +465,43 @@ const createQuiz = async (req, res) => {
 
 const submitQuiz = async(req, res)=>{
   try {
-    const { answer } = req.body;
-    const userId = req.user._id;
+    const { questionId, selectedOption } = req.body;
 
-    // Fetch the current question based on the user's session
-    const currentQuestion = await Question.findOne({}).sort({ _id: 1 }); // Change this to track user's progress properly
+    const question = await Question.findById(questionId);
 
-    if (!currentQuestion) {
-        return res.status(404).send('No Question found.');
+    if (!question) {
+      return res.status(404).send('Question not found.');
     }
 
-    // Check if the answer is correct
-    const isCorrect = currentQuestion.correctOption === parseInt(answer, 10);
+    const isCorrect = question.correctOption === parseInt(selectedOption, 10);
 
-    // Reward the user with points if the answer is correct
-    let pointsEarned = 0;
     if (isCorrect) {
-        pointsEarned = 10; // Points for a correct answer
-        let userPoints = await Points.findOne({ user: userId });
-        if (!userPoints) {
-            userPoints = new Points({ user: userId, points: pointsEarned });
-        } else {
-            userPoints.points += pointsEarned;
-        }
+      // Reward user with points
+      const userPoints = await Points.findOne({ user: req.user._id });
+
+      if (userPoints) {
+        userPoints.points += 10; // Add 10 points
         await userPoints.save();
+      } else {
+        const newPoints = new Points({
+          user: req.user._id,
+          points: 10
+        });
+        await newPoints.save();
+      }
     }
 
-    // Respond with the result and the next question
-    res.json({
-        correct: isCorrect,
-        pointsEarned
+    // Add this question to the user's answeredQuestions
+    await User.findByIdAndUpdate(req.user._id, {
+      $push: { answeredQuestions: question._id }
     });
 
-} catch (error) {
+    // Fetch the next question
+    return res.redirect('/quiz/take-quiz');
+  } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');
-}
+  }
 }
 
 
@@ -514,6 +590,70 @@ const adminPostQuiz = async(req, res)=>{
   res.render("admin/create-quiz", data)
 };
 
+
+const adminGetAllQuiz = async(req, res)=>{
+    try {
+      const questions = await Question.find().sort({ createdAt: -1 });
+      res.render('admin/all-questions', { questions });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send('Internal Server Error');
+    }
+}
+
+const adminLeaderboard = async(req, res)=>{
+  const data = await dashboardData(req?.user);
+  res.render("admin/admin-leaderboard", data)
+}
+
+// Get Edit question by admin
+
+const getEditQuestion = async (req, res) => {
+  try {
+    const question = await Question.findById(req.params.id);
+    if (!question) {
+      return res.status(404).send('Question not found.');
+    }
+    res.render('admin/edit-question', { question });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+};
+
+// Edit question by admin
+
+const postEditQuestion = async (req, res) => {
+  try {
+    const { question, options, correctOption } = req.body;
+    const optionsArray = options.split(',').map(option => option.trim());
+    const correctOptionIndex = parseInt(correctOption, 10);
+
+    await Question.findByIdAndUpdate(req.params.id, {
+      question,
+      options: optionsArray,
+      correctOption: correctOptionIndex
+    });
+
+    res.redirect('/admin/quiz/questions');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+};
+
+// Delete question by admin
+const deleteQuestion = async (req, res) => {
+  try {
+    await Question.findByIdAndDelete(req.params.id);
+    res.redirect('/admin/quiz/questions');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+};
+
+
 const referral = async(req, res)=>{
   const data = await dashboardData(req?.user);
   res.render("dashboard/referral", data)
@@ -563,6 +703,15 @@ module.exports = {
   getLeadingUser,
   getNewQuiz,
   submitQuiz,
+  quiz,
+  adminGetAllQuiz,
+  deleteQuestion,
+  postEditQuestion,
+  getEditQuestion,
+  adminLeaderboard,
+  adminGetAllCourses,
+  getEditCourse,
+  postEditCourse,
 
   aboutPage,
   blog,

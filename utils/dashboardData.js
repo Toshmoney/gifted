@@ -52,7 +52,8 @@ const fetchUserTransactions = async (userId, limit = 20) => {
 };
 
 const dashboardData = async (user, is_admin = false, limit = 20) => {
-  const topUsers = await UserDb.find().sort({ 'quizScores.score': -1 }).limit(10);
+  const topUsers = await Points.find().sort({ points: -1 }).limit(10).populate('user');
+
 
   const userWallet = await Wallet.findOne({
     user: user._id,
@@ -73,8 +74,7 @@ const dashboardData = async (user, is_admin = false, limit = 20) => {
     });
   } else {
     trxns = await fetchUserTransactions(user._id, limit);
-  }
-
+  }  
   
   const userPoints = await Points.findOne({user: user})
   const referrals = await referralModel.findOne({user}).sort("-createdAt");
