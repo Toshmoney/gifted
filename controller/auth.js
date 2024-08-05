@@ -169,6 +169,11 @@ const newUser = async (req, res, next) => {
   if (req.body.username) {
     req.body.username = req.body.username.toLowerCase();
   }
+
+  if (req.body.referralCode) {
+    req.body.referralCode = req.body.referralCode.toLowerCase();
+  }
+
   const { plan_type, username, password, email, confirmPassword, referralCode } = req.body;
   // Check if passwords match
   if (password !== confirmPassword) {

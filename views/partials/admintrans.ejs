@@ -20,7 +20,7 @@
                                 <% transactions.forEach(function(transaction) { %>
                                     <tr class="bg-white dark:border-neutral-500 dark:bg-neutral-600" style="background-color: white;">
                                         <td class="whitespace-nowrap px-6 py-4">
-                                            <%= transaction.user.name %>
+                                            <%= transaction.user?.name %>
                                         </td>
                                         <td class="whitespace-nowrap px-6 py-4" id="displayText">
                                             <div class="flex flex-col">
