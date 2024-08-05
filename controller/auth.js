@@ -219,9 +219,9 @@ const newUser = async (req, res, next) => {
     if (referral) {
       user.referredBy = referralCode;
       referral.referredUsers.push(user._id)
-      // referral.referralCommission +=1000;
       await referral.save()
-    }else{
+    }
+    else{
       req.flash("error", "No one with that referral code, pls contact admin to get one");
      return res.redirect("/sign-up");
     }
@@ -242,14 +242,12 @@ const newUser = async (req, res, next) => {
     } catch (error) {
       console.error("Error creating user:", error);
       return req.flash("error", "Error creating user");
-      // res.redirect("/sign-up");
     }
   };
 
   // Register user using Passport.js
   User.register(user, password, (err) => {
     if (err) {
-      // console.error("Error registering user:", err);
       req.flash("error", "Error registering user");
     }
     createUser();
@@ -262,6 +260,7 @@ const newUser = async (req, res, next) => {
 
 };
 
+// make payment page
 const makePayment = async(req, res)=>{
   let amount_to_pay;
   const user = req.user
@@ -292,9 +291,7 @@ const makePayment = async(req, res)=>{
   }
 
 
-  // Ensure the newPaymentDate is a valid date before setting it
   if (newPaymentDate && newPaymentDate instanceof Date && !isNaN(newPaymentDate)) {
-    console.log("Assigning next_PaymentDate:", newPaymentDate);  // Debugging log
     user.next_PaymentDate = newPaymentDate;
 } else {
     console.error('Invalid date for next_PaymentDate:', newPaymentDate);

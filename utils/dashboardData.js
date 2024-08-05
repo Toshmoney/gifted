@@ -63,7 +63,7 @@ const dashboardData = async (user, is_admin = false, limit = 20) => {
     trxns = await Transaction.find()
       .sort("-createdAt")
       .limit(limit)
-      .populate("user", "name email, _id");
+      .populate("user", "username email, _id");
     trxns = trxns.map((transaction) => {
       const item = transaction.toObject();
       return {
