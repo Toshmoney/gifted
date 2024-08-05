@@ -308,7 +308,7 @@ const rejectTrades = async(req, res)=>{
 
   const person = await User.findById({_id:user});
   const email = person.email;
-  const name = person.name;
+  const name = person.username;
 
   // Use Nodemailer to send notification email to the user
   const transporter = nodemailer.createTransport({
@@ -361,7 +361,7 @@ const assignAdminRole = async(req, res)=>{
 
   user.isAdmin = true;
 
-  const name = user.name;
+  const name = user.username;
 
   // Use Nodemailer to send notification email to the user
   const transporter = nodemailer.createTransport({
@@ -411,7 +411,7 @@ const turnAdminToUser = async(req, res)=>{
 
   user.is_admin = false;
 
-  const name = user.name;
+  const name = user.username;
 
   // Use Nodemailer to send notification email to the user
   const transporter = nodemailer.createTransport({
