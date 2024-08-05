@@ -348,6 +348,52 @@ const adminGetAllCourses = async (req, res) => {
   }
 };
 
+// Edit course page
+
+const getEditCourse = async (req, res) => {
+  try {
+    const courseId = req.params.id;
+    const course = await Course.findById(courseId);
+    if (!course) {
+      return res.status(404).send('Course not found');
+    }
+    res.render('admin/edit-course', { course });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+};
+
+// Edit course
+
+const postEditCourse = async (req, res) => {
+  try {
+    const courseId = req.params.id;
+    const { title, price, point, courseDetails, courseLink } = req.body;
+
+    const updatedCourse = await Course.findByIdAndUpdate(
+      courseId,
+      {
+        title,
+        price,
+        point,
+        courseDetails,
+        courseLink: courseLink.split(',').map(link => link.trim())
+      },
+      { new: true }
+    );
+
+    if (!updatedCourse) {
+      return res.status(404).send('Course not found');
+    }
+
+    res.redirect('/admin/all-courses');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+};
+
 const quiz = (req, res)=>{
   res.render("dashboard/noquiz")
 }
@@ -664,6 +710,8 @@ module.exports = {
   getEditQuestion,
   adminLeaderboard,
   adminGetAllCourses,
+  getEditCourse,
+  postEditCourse,
 
   aboutPage,
   blog,

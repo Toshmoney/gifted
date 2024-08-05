@@ -43,6 +43,8 @@ const {
   adminGetAllQuiz,
   adminLeaderboard,
   adminGetAllCourses,
+  getEditCourse,
+  postEditCourse,
 } = require("../controller/controller");
 
 const {
@@ -201,6 +203,8 @@ router.route("/quiz/admin-post").get([isLoggedIn, isAdmin], adminPostQuiz);
 router.route("/quiz/post-question").post([isLoggedIn, isAdmin], createQuiz);
 router.route("/admin/quiz/questions").get([isLoggedIn, isAdmin], adminGetAllQuiz);
 router.route("/admin/all-courses").get([isLoggedIn, isAdmin], adminGetAllCourses);
+router.route("/admin/courses/edit/:id").get([isLoggedIn, isAdmin], getEditCourse);
+router.route("/admin/courses/edit/:id").post([isLoggedIn, isAdmin], postEditCourse);
 router.route("/admin/leaderboard").get([isLoggedIn, isAdmin], adminLeaderboard);
 router.route("/admin/quiz/questions/delete/:id").get([isLoggedIn, isAdmin], deleteQuestion);
 router.route("/admin/quiz/questions/edit/:id").get([isLoggedIn, isAdmin], getEditQuestion);
