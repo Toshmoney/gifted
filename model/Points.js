@@ -10,7 +10,11 @@ const PointSchema = new Schema({
         type: Number,
         default: 0
     },
-})
+
+    lastSpinDate: {
+        type: Date,
+    }
+}, { timestamps: true })
 
 
 const Points = model('Points', PointSchema);

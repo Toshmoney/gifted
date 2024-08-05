@@ -1,5 +1,6 @@
 const { CustomAPIError } = require("../handleError");
 const moment = require('moment');
+const Points = require("../model/Points");
 
 const checkSubscription = async (req, res, next) => {
   try {
@@ -26,6 +27,27 @@ const checkSubscription = async (req, res, next) => {
   } catch (error) {
     console.error('Error checking subscription:', error);
     res.status(500).json({ msg: 'Internal Server Error' });
+  }
+};
+
+const checkSpinAvailability = async (req, res, next) => {
+  try {
+      const userPoints = await Points.findOne({ user: req.user._id });
+
+      if (userPoints) {
+          const lastSpinDate = userPoints.lastSpinDate;
+          const today = moment().startOf('day');
+
+          if (lastSpinDate && moment(lastSpinDate).isSame(today, 'day')) {
+              req.flash("info", "You have already spun the wheel today. Please try again tomorrow.")
+              return res.redirect("/dashboard")
+          }
+      }
+
+      next();
+  } catch (error) {
+      console.error("Error checking spin availability:", error);
+      return res.status(500).json({ msg: "Internal server error." });
   }
 };
 
@@ -68,5 +90,6 @@ module.exports = {
   isAdmin,
   isAuthenticated,
   hasPaid,
-  checkSubscription
+  checkSubscription,
+  checkSpinAvailability
 };

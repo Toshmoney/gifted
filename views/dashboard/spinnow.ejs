@@ -73,6 +73,16 @@
 <body>
 
 <div id="wheel-container">
+    <% if (messages.error) { %>
+        <div class="alert alert-danger" role="alert">
+          <%= messages.error %>
+        </div>
+    <% } %>
+    <% if (messages.info) { %>
+        <div class="alert alert-info" role="alert">
+          <%= messages.info %>
+        </div>
+    <% } %>
     <h1>Spin The Wheel</h1>
     <h3 id="disabled">Win And Be Rewarded</h3>
     <button id="back" onclick="window.location = '/dashboard'">Go back</button>

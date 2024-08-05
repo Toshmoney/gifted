@@ -15,10 +15,12 @@ const spintheWheel = async (req, res, next) => {
             userPoints = new Points({
                 points: 10,
                 user: user._id,
+                lastSpinDate: new Date(),
             });
             transactionDescription = `Initial points for new user: 10 points added`;
         } else {
             userPoints.points += score;
+            userPoints.lastSpinDate = new Date();
             transactionDescription = `${score} points from spinning the wheel`;
         }
 
@@ -39,8 +41,6 @@ const spintheWheel = async (req, res, next) => {
         next(error);
     }
 };
-
-
 
 
 module.exports = spintheWheel

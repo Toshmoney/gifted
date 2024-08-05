@@ -78,7 +78,7 @@ const {
 
 const { fetchPackages } = require("../controller/packageController");
 
-const { isLoggedIn, isAdmin, hasPaid, checkSubscription } = require("../middleware/authenticate");
+const { isLoggedIn, isAdmin, hasPaid, checkSubscription, checkSpinAvailability } = require("../middleware/authenticate");
 
 const {
   newUser,
@@ -174,8 +174,8 @@ router.route("/wallet/verify-payment").post(isLoggedIn, fundWalletVerify);
 router.route("/wallet/fund-manual").post([isLoggedIn, isAdmin], addFundsManually);
 
 // Spin only
-router.route('/spin-wheel').get([isLoggedIn, checkSubscription],spinNow)
-router.route('/spin-wheel').post([isLoggedIn, checkSubscription],spintheWheel)
+router.route('/spin-wheel').get([isLoggedIn, checkSubscription, checkSpinAvailability],spinNow)
+router.route('/spin-wheel').post([isLoggedIn, checkSubscription, checkSpinAvailability],spintheWheel)
 router.route('/spin').get([isLoggedIn, checkSubscription],spin);
 
 // Course Only;
