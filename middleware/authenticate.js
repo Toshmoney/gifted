@@ -9,20 +9,16 @@ const checkSubscription = async (req, res, next) => {
     if (!user || !user.next_PaymentDate) {
       req.flash("info", "Subscription information is not available");
       return res.redirect("/makePayment")
-      // return res.status(403).json({ msg: 'Subscription information is not available' });
     }
 
-    // Check if the current date is past the next_paymentDate
     const nextPaymentDate = moment(user.next_PaymentDate);
     const today = moment();
 
     if (today.isAfter(nextPaymentDate)) {
-      // If subscription has expired
       req.flash("info", "Your subscription has expired. Please renew to continue accessing this resource.");
       return res.redirect("/makePayment")
     }
 
-    // If subscription is still valid
     next();
   } catch (error) {
     console.error('Error checking subscription:', error);

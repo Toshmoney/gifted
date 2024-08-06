@@ -13,7 +13,11 @@ const PointSchema = new Schema({
 
     lastSpinDate: {
         type: Date,
-    }
+    },
+    has_spin: {
+        type: Boolean,
+        default: false
+    },
 }, { timestamps: true })
 
 

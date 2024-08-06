@@ -100,7 +100,8 @@ const dashboardData = async (user, is_admin = false, limit = 20) => {
     name: user.username,
     email: user.email,
     referredBy: user?.referredBy,
-    nextPaymentDate: user.next_PaymentDate ? user.next_PaymentDate.toDateString() : 'N/A' // Format date or show 'N/A'
+    nextPaymentDate: user.next_PaymentDate ? user.next_PaymentDate.toDateString() : 'N/A',
+    has_spin: user?.has_spin,
   };
 
   const data = {
