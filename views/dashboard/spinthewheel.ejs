@@ -23,7 +23,11 @@
                 
                 <div class="up">
                     <div class="upp">
+                        <% if (user.has_spin) { %>
+                            <h4 class="choose" style="color:red">You have already spun today, come back 2mao!!</h4>
+                        <% }else{ %>
                         <h4 class="choose">you can only spn once. check out our others reward page for more opportunities.</h4>
+                        <% } %>
                     </div>
                 </div>
                 
@@ -31,7 +35,11 @@
             </div>
             <div class="btn">
                 <button class="st" onclick="alert('No more info for now!')">More Information</button>
+                <% if (user.has_spin) { %>
+                    <button class="nd" onclick="alert('You have already spun for the day, come back 2mao!')">Already Spun</button>
+                <% }else{ %>
                 <button class="nd" onclick="window.location.href='/spin-wheel'">Spin Now</button>
+                <% } %>
             </div>
         </div>
     </div>

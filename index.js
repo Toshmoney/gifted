@@ -1,5 +1,7 @@
 require("dotenv").config();
 require("express-async-errors");
+const cron = require('node-cron');
+const Points = require("./model/Points");
 const express = require("express");
 const fileupload = require("express-fileupload");
 const session = require("express-session");
@@ -64,6 +66,19 @@ app.use(cookieParser());
 passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+
+// ******** Reset all user spins for the next day *********
+
+cron.schedule('0 0 * * *', async () => {
+  try {
+      // Reset the has_spin field for all users
+      await Points.updateMany({}, { has_spin: false });
+      await User.updateMany({}, { has_spin: false });
+      console.log('Successfully reset the spin status for all users.');
+  } catch (error) {
+      console.error('Error resetting spin status:', error);
+  }
+});
 
 // ********** Routes **************
 app.use("/", router);
