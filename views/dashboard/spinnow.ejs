@@ -90,14 +90,14 @@
     const scores = [10, 20, 0, 40, 0, 60, 0, 80, 100];
 
 
-    // Check if the user has already spun the wheel today
+    // Check if the user has already spun the wheel today on any of their acc
     const lastSpinDate = localStorage.getItem('lastSpinDate');
     if (lastSpinDate) {
         const today = new Date().toLocaleDateString();
         if (today === lastSpinDate) {
             // User has already spun today
             spinButton.disabled = true;
-            msg.textContent = "You have spinned today, come back 2mao";
+            msg.textContent = "Please stop operating multiple accounts else you will get pernalized!";
             msg.style.color = 'red';
             back.style.display = "block"
 
@@ -127,7 +127,7 @@
             const score = Math.floor(randomRotation % 100);
             alert(`Your score: ${score}`);
             async function sendScoreToServer() {
-            const serverEndpoint = '/spin-wheel';
+            const serverEndpoint = '/spin';
 
             await fetch(serverEndpoint, {
                 method: 'POST',
@@ -142,7 +142,7 @@
         }
 
         sendScoreToServer()
-            window.location.href ="/spin-wheel"
+            window.location.href ="/spin"
         }, 3000);
 
     });
