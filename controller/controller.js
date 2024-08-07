@@ -507,8 +507,7 @@ const submitQuiz = async(req, res)=>{
 
 const getNewQuiz = async(req, res)=>{
   try {
-    // Fetch the next question (you should implement logic to get the actual next question)
-    const nextQuestion = await Question.findOne({}).sort({ _id: 1 }); // Change this to track user's progress properly
+    const nextQuestion = await Question.findOne({}).sort({ _id: 1 }); 
 
     if (nextQuestion) {
         res.json({
@@ -541,7 +540,7 @@ const completeQuiz = async (req, res) => {
     allUsers.sort((a, b) => {
       const totalScoreA = a.quizScores.reduce((total, entry) => total + entry.score, 0);
       const totalScoreB = b.quizScores.reduce((total, entry) => total + entry.score, 0);
-      return totalScoreB - totalScoreA; // Sort in descending order
+      return totalScoreB - totalScoreA; 
     });
 
     // Assign rewards to the top 3 users
@@ -558,7 +557,7 @@ const completeQuiz = async (req, res) => {
           reward = 70;
           break;
         default:
-          reward = 0; // No reward for other users
+          reward = 0; 
       }
       const user = allUsers[i];
       user.reward = reward;
