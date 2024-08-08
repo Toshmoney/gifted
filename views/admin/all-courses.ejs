@@ -101,7 +101,7 @@
             <tbody>
                 <% courses.forEach(course => { %>
                     <tr>
-                        <td><%= course.title %></td>
+                        <td> <a href="/admin/courses/<%= course._id %>/enrolled-users"> <%= course.title %> </a></td>
                         <td>N<%= course.price %></td>
                         <td><%= course.point %></td>
                         <td><%= course.courseDetails %></td>

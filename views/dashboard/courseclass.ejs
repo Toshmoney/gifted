@@ -22,6 +22,7 @@
             <div class="all">
                 
                 <div class="up">
+                    <h2>Course Details</h2>
                     <div class="upp">
                         <h4 class="choose"><%= course.courseDetails %></h4>
                     </div>
@@ -30,7 +31,7 @@
             </div>
             <div>
                     <% course.courseLink.forEach((link) => { %>
-                        <li><a href="/<%= link %>"><%= link %></a></li>
+                        <li>Class Link: <a href="/<%= link %>"><%= link %></a></li>
                       <% }); %>
             </div>
         </div>
