@@ -353,6 +353,28 @@ const adminGetAllCourses = async (req, res) => {
   }
 };
 
+
+
+// Get All enrolled users in a course
+
+const getAllEnrolledUser = async(req, res)=>{
+  try {
+    const course = await Course.findById(req.params.courseId).populate('purchasedBy', 'username email');
+    
+    if (!course) {
+      req.flash('error', 'Course not found');
+      return res.redirect('/admin');
+    }
+
+    res.render('admin/enrolled-users', { course });
+  } catch (error) {
+    console.error(error);
+    req.flash('error', 'An error occurred while fetching enrolled users');
+    res.redirect('/admin');
+  }
+}
+
+
 // Edit course page
 
 const getEditCourse = async (req, res) => {
@@ -724,6 +746,7 @@ module.exports = {
   getEditCourse,
   postEditCourse,
   weeklyQuizUser,
+  getAllEnrolledUser,
 
   aboutPage,
   blog,
