@@ -336,6 +336,11 @@ const termsCondition = async (req, res) => {
   res.status(200).render("pages/terms-condition", {user});
 };
 
+const weeklyQuizUser = (req, res)=>{
+  res.render("dashboard/weekly-user")
+
+}
+
 // Admin get all courses
 
 const adminGetAllCourses = async (req, res) => {
@@ -718,6 +723,7 @@ module.exports = {
   adminGetAllCourses,
   getEditCourse,
   postEditCourse,
+  weeklyQuizUser,
 
   aboutPage,
   blog,

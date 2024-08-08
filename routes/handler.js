@@ -45,6 +45,7 @@ const {
   adminGetAllCourses,
   getEditCourse,
   postEditCourse,
+  weeklyQuizUser,
 } = require("../controller/controller");
 
 const {
@@ -78,7 +79,7 @@ const {
 
 const { fetchPackages } = require("../controller/packageController");
 
-const { isLoggedIn, isAdmin, hasPaid, checkSubscription, checkSpinAvailability } = require("../middleware/authenticate");
+const { isLoggedIn, isAdmin, hasPaid, checkSubscription, checkSpinAvailability, quizAccessControl } = require("../middleware/authenticate");
 
 const {
   newUser,
@@ -145,8 +146,9 @@ router.route("/billpayment").get([isLoggedIn, checkUserPin], billpayment);
 router.route("/trades").get([isLoggedIn, checkUserPin], trades);
 
 // Quiz
-router.route("/quiz/take-quiz").get([isLoggedIn], getQuiz);
+router.route("/quiz/take-quiz").get([isLoggedIn, quizAccessControl], getQuiz);
 router.route("/no-new-quiz-available").get([isLoggedIn], quiz);
+router.route("/weekly-user-quiz-check").get([isLoggedIn], weeklyQuizUser);
 router.route("/quiz").get([isLoggedIn], quizPage);
 router.route("/quiz/submit-quiz").post([isLoggedIn], submitQuiz);
 router.route("/quiz/next-question").get([isLoggedIn], getNewQuiz);

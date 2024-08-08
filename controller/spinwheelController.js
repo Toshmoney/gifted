@@ -29,10 +29,10 @@ const spintheWheel = async (req, res, next) => {
             transactionDescription = `${score} points from spinning the wheel`;
         }
 
-        await userPoints.save();
-
+        
         user.has_spin = true;
         await user.save();
+        await userPoints.save();
 
         await Transaction.create({
             user: user,
