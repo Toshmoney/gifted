@@ -263,9 +263,8 @@ const newUser = async (req, res, next) => {
 // make payment page
 const makePayment = async(req, res)=>{
   let amount_to_pay;
-  const user = req.user
-  const planType = user.plan_type;
-  const email = user.email
+  const user = req.user;
+  const email = user.email;
 
   const errorMg = req.flash("error").join(" ");
   const infoMg = req.flash("info").join(" ");
@@ -274,34 +273,29 @@ const makePayment = async(req, res)=>{
     info: infoMg,
   };
 
-  if(!planType){
-      req.flash("error", "Sign in to continue");
-      return res.redirect("/login")
+  if (!user.plan_type) {
+    req.flash("error", "Sign in to continue");
+    return res.redirect("/login");
   }
 
   const currentDate = new Date();
-  let newPaymentDate;
+  const newPaymentDate = moment(currentDate).add(6, 'months').toDate();
 
-  if(planType === 'weekly'){
-      amount_to_pay = 2400;
-      newPaymentDate = moment(currentDate).add(7, 'days').toDate();
-  }else{
-    amount_to_pay = 4600
-    newPaymentDate = moment(currentDate).add(1, 'month').toDate();
-  }
+  amount_to_pay = user.plan_type === 'weekly' ? 2500 : 4500;
 
-
+  // Ensure the newPaymentDate is valid
   if (newPaymentDate && newPaymentDate instanceof Date && !isNaN(newPaymentDate)) {
     user.next_PaymentDate = newPaymentDate;
-} else {
+  } else {
     console.error('Invalid date for next_PaymentDate:', newPaymentDate);
     return res.status(500).json({ msg: 'Failed to generate valid next_PaymentDate' });
-}
+  }
 
-await user.save();
+  await user.save();
 
-  res.render('dashboard/makepayment', {amount_to_pay, email, newPaymentDate, messages})
-}
+  res.render('dashboard/makepayment', { amount_to_pay, email, newPaymentDate, messages });
+};
+
 const confirmPayment = async (req, res) => {
   const user = req.user;
   try {
@@ -358,9 +352,9 @@ const confirmPayment = async (req, res) => {
           console.log("Referrer: ", referrer.user);
           console.log("Referrer User Id: ", referrer.user._id);
           // Update the referrer's referral commission
-          referrer.referralCommission += 500;
+          referrer.referralCommission += 1000;
 
-        let transactionDescription = "N" + 500 + " referral commission earned!";
+        let transactionDescription = "N" + 1000 + " referral commission earned!";
 
         await Transaction.create({
             user:referrer.user,

@@ -105,6 +105,20 @@ const adminManualFunding = async (req, res) => {
   res.status(200).render("admin/manualfunding", {user, msg : messages});
 };
 
+const adminRewardFunding = async (req, res) => {
+  const data = await dashboardData(req.user);
+  const errorMg = req.flash("error").join(" ");
+  const infoMg = req.flash("info").join(" ");
+  const messages = {
+    error: errorMg,
+    info: infoMg,
+  };
+
+  const {user} = data
+
+  res.status(200).render("admin/rewardfunding", {user, msg : messages});
+};
+
 const makeUserAdmin = async (req, res) => {
   const data = await dashboardData(req.user);
   const errorMg = req.flash("error").join(" ");
@@ -605,6 +619,7 @@ module.exports = {
   adminTradeReset,
   adminTradePlans,
   adminManualFunding,
+  adminRewardFunding,
   rejectTrades,
   makeUserAdmin,
   assignAdminRole,

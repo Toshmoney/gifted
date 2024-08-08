@@ -127,7 +127,7 @@
             const score = Math.floor(randomRotation % 100);
             alert(`Your score: ${score}`);
             async function sendScoreToServer() {
-            const serverEndpoint = '/spin';
+            const serverEndpoint = '/spin-wheel';
 
             await fetch(serverEndpoint, {
                 method: 'POST',

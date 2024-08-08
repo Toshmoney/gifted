@@ -71,12 +71,30 @@ passport.deserializeUser(User.deserializeUser());
 
 cron.schedule('0 0 * * *', async () => {
   try {
-      // Reset the has_spin field for all users
-      await Points.updateMany({}, { has_spin: false });
-      await User.updateMany({}, { has_spin: false });
-      console.log('Successfully reset the spin status for all users.');
+    //**** Reset the has_spin field for all users ****
+    await Points.updateMany({}, { has_spin: false });
+    await User.updateMany({}, { has_spin: false });
+
+    const today = new Date();
+    const dayOfWeek = today.getDay();
+    const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
+    const isLastDayOfMonth = today.getDate() === lastDayOfMonth;
+
+    //**** Clear points for weekly users every Sunday ****
+    if (dayOfWeek === 0) {
+      await Points.updateMany({ plan_type: 'weekly' }, { points: 0 });
+      console.log('Successfully cleared points for weekly users.');
+    }
+
+    //**** Clear points for monthly users at the end of the month ****
+    if (isLastDayOfMonth) {
+      await Points.updateMany({ plan_type: 'monthly' }, { points: 0 });
+      console.log('Successfully cleared points for monthly users.');
+    }
+
+    console.log('Successfully reset the spin status for all users.');
   } catch (error) {
-      console.error('Error resetting spin status:', error);
+    console.error('Error during cron job execution:', error);
   }
 });
 

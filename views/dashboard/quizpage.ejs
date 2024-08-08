@@ -66,7 +66,7 @@
                         <% topUsers.forEach((entry, index) => { %>
                             <tr>
                               <td><%= index + 1 %></td>
-                              <td><%= entry.user.username %></td>
+                              <td><%= entry.user.username %> (<%= entry.user.plan_type %> user)</td>
                               <td><%= entry.points %></td>
                             </tr>
                           <% }) %>

@@ -26,6 +26,23 @@ const checkSubscription = async (req, res, next) => {
   }
 };
 
+const quizAccessControl = (req, res, next) => {
+    const user = req.user;
+    // Get current day e.g Monday with moment
+    const currentDay = moment().format('dddd');
+
+    if (user.plan_type === 'weekly') {
+
+        // Restrict access on Saturday and Sunday
+        if (currentDay === 'Saturday' || currentDay === 'Sunday') {
+          return res.redirect('/weekly-user-quiz-check');
+        }
+    }
+
+    next();
+};
+
+
 const checkSpinAvailability = async (req, res, next) => {
   try {
       const userPoints = await Points.findOne({ user: req.user._id });
@@ -87,5 +104,6 @@ module.exports = {
   isAuthenticated,
   hasPaid,
   checkSubscription,
-  checkSpinAvailability
+  checkSpinAvailability,
+  quizAccessControl
 };
