@@ -303,74 +303,62 @@ const confirmPayment = async (req, res) => {
 
     if (!reference) {
       req.flash("error", "Unable to generate reference code");
-      console.log("Unable to generate reference code");
       return res.redirect('/makePayment');
     }
 
     const baseurl = `https://api.paystack.co/transaction/verify/${reference}`;
 
-    // Fetch the Paystack transaction details
     const response = await fetch(baseurl, {
       headers: {
         Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}`,
-        "content-type":"application/json"
+        "content-type": "application/json"
       },
     }).then(response => response.json());
 
     if (!response.status) {
-      // Transaction reference not found
       req.flash("error", "Transaction reference not found");
-      console.log(response);
       return res.redirect("/makePayment");
     }
 
-    // Transaction reference found, proceed with further processing
     const referredUser = user.referredBy;
-    const userRefCode = user.referralCode;
-    
-    // Retrieve the main user from the database
+
     const mainUser = await User.findOne({ username: req.user.username });
 
     if (!mainUser) {
-      // User not found, handle appropriately
       req.flash("error", "No User Found");
       return res.redirect("/login");
     }
 
-    // Update the user's isPaid status to true
-
-    console.log("User updated:", user);
-
     if (!referredUser || referredUser !== user.username) {
-      // Avoid self-referrals
       await user.save();
 
       if (referredUser) {
         const referrer = await referralModel.findOne({ referralCode: referredUser }).populate("user");
 
         if (referrer && !user.isPaid) {
-          console.log("Referrer: ", referrer.user);
-          console.log("Referrer User Id: ", referrer.user._id);
-          // Update the referrer's referral commission
-          referrer.referralCommission += 1000;
+          let rewardAmount = 1000;
+          if (user.plan_type === 'monthly') {
+            rewardAmount = 2000;
+          }
 
-        let transactionDescription = "N" + 1000 + " referral commission earned!";
+          referrer.referralCommission += rewardAmount;
 
-        await Transaction.create({
-            user:referrer.user,
-            amount: 500,
+          let transactionDescription = `N${rewardAmount} referral commission earned!`;
+
+          await Transaction.create({
+            user: referrer.user,
+            amount: rewardAmount,
             service: "referral",
             type: "credit",
             status: "completed",
             description: transactionDescription,
-        });
+          });
 
           await referrer.save();
         }
       }
       user.next_PaymentDate = newPaymentDate;
       user.isPaid = true;
-      console.log("Your next payment date is: ", user.next_PaymentDate);
       await user.save();
       
       return res.redirect("/dashboard");
@@ -381,6 +369,7 @@ const confirmPayment = async (req, res) => {
     res.redirect("/makePayment");
   }
 };
+
 
 
 

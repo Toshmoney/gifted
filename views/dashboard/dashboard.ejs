@@ -9,7 +9,8 @@
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/wallet.css">
     <link rel="stylesheet" href="css/Maindashboard.css">
-    <link rel="icon" type="image/x-icon" href="/img/logo-img.png">
+    <link rel="icon" type="image/x-icon" href="/images/gifted_logo.png">
+
 
     
 </head>
@@ -40,7 +41,7 @@
                         <% } %>
                     </div>
                     <div class="icon-button">
-                        <a href=""><img src="/img/next.png" alt=""></a>
+                        <a href="/wallet"><img src="/img/next.png" alt=""></a>
                     </div>
                 </div>
                 <div class="sect-border">
@@ -52,7 +53,7 @@
                         <p>NGN <%= referralCommission %></p>
                     </div>
                     <div class="icon-button">
-                        <a href=""> <img src="/img/next.png" alt=""> </a>
+                        <a href="/referral"> <img src="/img/next.png" alt=""> </a>
                     </div>
                 </div>
                 <div class="sect-border">
@@ -61,15 +62,15 @@
                     </div>
                     <div class="buy-or-sell">
                         <h3>Total Referred Users</h3>
-                        <p><% if(referredUsernames.length > 0){%>
-                            <%=referredUsernames.length%>
+                        <p><% if(referrals.length > 0){%>
+                            <%=referrals.length%>
                             <%}else{%>
                                 0
                             <%}%>
                         </p>
                     </div>
                     <div class="icon-button">
-                        <a href=""><img src="/img/next.png" alt=""></a>
+                        <a href="/referral"><img src="/img/next.png" alt=""></a>
                     </div>
                 </div>
                 <a href="">
