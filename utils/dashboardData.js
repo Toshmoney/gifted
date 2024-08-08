@@ -74,26 +74,28 @@ const dashboardData = async (user, is_admin = false, limit = 20) => {
     });
   } else {
     trxns = await fetchUserTransactions(user._id, limit);
-  }  
-  
-  const userPoints = await Points.findOne({user: user});
-  const referrals = await referralModel.findOne({user}).sort("-createdAt");
+  }
+
+  const userPoints = await Points.findOne({ user: user });
+  const referrals = await referralModel.findOne({ user }).sort("-createdAt");
   const courses = await Course.find().sort("-createdAt");
   const totalPoints = userPoints?.points;
   const referralCommission = referrals?.referralCommission;
   const allRefUsers = referrals?.referredUsers;
   const enrolledCourses = await Course.find({ purchasedBy: user._id }).sort("-createdAt");
-  
+
   // Find the referrer using the referralCode
-  const referrer = await referralModel.findOne({ referralCode: user.username });
-  let referredUsernames = [];
+  const referrer = await referralModel.findOne({ referralCode: user.username }).populate('referredUsers');
+
+  // Array to store referral data
+  let referralData = [];
 
   if (referrer) {
-    // Populate the referredUsers array with user documents
-    await referrer.populate('referredUsers');
-
-    // Extract the usernames from the populated referredUsers array
-    referredUsernames = referrer.referredUsers.map(user => user.username);
+    referralData = referrer.referredUsers.map(refUser => ({
+      username: refUser.username,
+      status: refUser.isPaid ? 'Active' : 'Inactive',
+      reward: refUser.plan_type === 'monthly' ? 2000 : 1000,
+    }));
   }
 
   const user_data = {
@@ -109,7 +111,7 @@ const dashboardData = async (user, is_admin = false, limit = 20) => {
     transactions: trxns,
     totalPoints,
     referralCommission,
-    referredUsernames,
+    referrals: referralData,  // Updated with referral data
     courses,
     topUsers,
     enrolledCourses
@@ -119,9 +121,10 @@ const dashboardData = async (user, is_admin = false, limit = 20) => {
     user_data.balance = userWallet.current_balance;
     data.balance = userWallet.current_balance;
   }
-  
+
   return data;
 };
+
 
 
 module.exports = {
