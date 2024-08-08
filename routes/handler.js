@@ -74,6 +74,7 @@ const {
   assignAdminRole,
   turnAdminToUser,
   revertAdminRole,
+  adminRewardFunding,
 
 } = require("../controller/admin");
 
@@ -103,6 +104,7 @@ const { withdrawalRequest, fetchsupportbanks } = require("../controller/withdraw
 const addFundsManually = require("../controller/addFundManually");
 const { getCourse, CourseWalletpurchase, CoursePointpurchase, checkEnrolledUser, updateCourse, getAllCourse, createCourse, myCourses } = require("../controller/courseController");
 const spintheWheel = require("../controller/spinwheelController");
+const rewardTopQuizer = require("../controller/rewardTopQuizer");
 
 // const { buyPaypal } = require("../controller/paypalController");
 
@@ -214,11 +216,13 @@ router.route("/admin/quiz/questions/edit/:id").post([isLoggedIn, isAdmin], postE
 router.route('/makePayment').get([isLoggedIn],makePayment)
 router.route('/confirm-payment').post([isLoggedIn],confirmPayment)
 router.route("/manual/funding").get([isLoggedIn, isAdmin], adminManualFunding);
+router.route("/manual/quiz-reward").get([isLoggedIn, isAdmin], adminRewardFunding);
 router.route("/role/make-admin").get([isLoggedIn, isAdmin], makeUserAdmin);
 router.route("/role/make-admin").post([isLoggedIn, isAdmin], assignAdminRole);
 router.route("/role/turn-to-user").get([isLoggedIn, isAdmin], revertAdminRole);
 router.route("/role/turn-to-user").post([isLoggedIn, isAdmin], turnAdminToUser);
 router.route("/manual/funding").post([isLoggedIn, isAdmin], addFundsManually);
+router.route("/manual/quiz-reward").post([isLoggedIn, isAdmin], rewardTopQuizer);
 router.route("/trades/reject/:id").post([isLoggedIn, isAdmin], rejectTrades);
 router.route("/users/all-users").get([isLoggedIn, isAdmin], allUsers);
 router.route("/admin/setting").get([isLoggedIn, isAdmin], adminSettings);
