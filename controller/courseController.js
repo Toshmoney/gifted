@@ -150,7 +150,7 @@ const CourseWalletpurchase = async(req, res) => {
 
         if (course.purchasedBy.includes(user)) {
             req.flash("error", 'Course already purchased by this user');
-            return res.redirect(`/my-courses`);
+            return res.redirect(`/all-available-courses`);
         }
 
         const course_price = course.price;
