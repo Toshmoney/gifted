@@ -11,12 +11,18 @@ const User = require("../model/User.db")
 const rewardTopQuizer = async (req, res) => {
   const { amount, email } = req.body;
   if (!amount || !email) {
-    req.flash("error", "User email or amount is missing!")
-    return;
+    req.flash("error", "User email or amount is missing!");
+    return res.redirect("/manual/quiz-reward")
   }
-  let useracc = await User.findOne({email})
+  let useracc = await User.findOne({email});
+
+  if (!useracc) {
+    req.flash("error", "User email is incorrect!")
+    return res.redirect("/manual/quiz-reward")
+  }
+
   const user = useracc._id;
-  const name = useracc.name
+  const name = useracc.username
   let wallet = await Wallet.findOne({ user: user });
   if (!wallet) {
     wallet = new Wallet({

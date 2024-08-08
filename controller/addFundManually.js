@@ -12,11 +12,16 @@ const addFundsManually = async (req, res) => {
   const { amount, email } = req.body;
   if (!amount || !email) {
     req.flash("error", "User email or amount is missing!")
-    return;
+    return res.redirect("/manual/funding")
   }
-  let useracc = await User.findOne({email})
+  let useracc = await User.findOne({email});
+
+  if (!useracc) {
+    req.flash("error", "User email is incorrect!")
+    return res.redirect("/manual/funding")
+  }
   const user = useracc._id;
-  const name = useracc.name
+  const name = useracc.username
   let wallet = await Wallet.findOne({ user: user });
   if (!wallet) {
     wallet = new Wallet({
