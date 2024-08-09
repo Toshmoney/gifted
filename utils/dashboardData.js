@@ -84,10 +84,8 @@ const dashboardData = async (user, is_admin = false, limit = 20) => {
   const allRefUsers = referrals?.referredUsers;
   const enrolledCourses = await Course.find({ purchasedBy: user._id }).sort("-createdAt");
 
-  // Find the referrer using the referralCode
   const referrer = await referralModel.findOne({ referralCode: user.username }).populate('referredUsers');
 
-  // Array to store referral data
   let referralData = [];
 
   if (referrer) {
@@ -111,7 +109,7 @@ const dashboardData = async (user, is_admin = false, limit = 20) => {
     transactions: trxns,
     totalPoints,
     referralCommission,
-    referrals: referralData,  // Updated with referral data
+    referrals: referralData, 
     courses,
     topUsers,
     enrolledCourses

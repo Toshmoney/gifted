@@ -98,6 +98,61 @@ cron.schedule('0 0 * * *', async () => {
   }
 });
 
+
+// Manually clear spin
+const clearSpin = async()=>{
+  try {
+    console.log('Cron job started at:', new Date().toISOString());
+
+    //**** Reset the has_spin field for all users ****
+    await Points.updateMany({}, { has_spin: false });
+    await User.updateMany({}, { has_spin: false });
+    console.log('Successfully reset the spin status for all users.');
+
+    const today = new Date();
+    const dayOfWeek = today.getDay();
+    const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
+    const isLastDayOfMonth = today.getDate() === lastDayOfMonth;
+
+    //**** Clear points for weekly users every Sunday ****
+    if (dayOfWeek === 0) {
+      await Points.updateMany({ plan_type: 'weekly' }, { points: 0 });
+      console.log('Successfully cleared points for weekly users.');
+    }
+
+    //**** Clear points for monthly users at the end of the month ****
+    if (isLastDayOfMonth) {
+      await Points.updateMany({ plan_type: 'monthly' }, { points: 0 });
+      console.log('Successfully cleared points for monthly users.');
+    }
+
+    console.log('Successfully reset the spin status for all users.');
+  } catch (error) {
+    console.error('Error during cron job execution:', error);
+  }
+}
+
+// clearSpin()
+
+// const addPlanTypeToExistingPoints = async () => {
+//   const pointsWithoutPlanType = await Points.find({ plan_type: { $exists: false } });
+
+//   for (const point of pointsWithoutPlanType) {
+//       const user = await User.findById(point.user); 
+//       if (user && user.plan_type) {
+//           point.plan_type = user.plan_type;
+//           await point.save();
+//       } else {
+//           console.warn(`User not found or plan_type missing for user ID: ${point.user}`);
+//       }
+//   }
+
+//   console.log('Plan type added to existing Points documents.');
+// };
+
+// addPlanTypeToExistingPoints();
+
+
 // ********** Routes **************
 app.use("/", router);
 app.use("/api/v1/data_plan", dataPlanRoutes);
