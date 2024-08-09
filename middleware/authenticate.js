@@ -7,7 +7,7 @@ const checkSubscription = async (req, res, next) => {
     const user = req.user;
 
     if (!user || !user.next_PaymentDate) {
-      req.flash("info", "Subscription information is not available");
+      req.flash("error", "Subscription information is not available");
       return res.redirect("/makePayment")
     }
 
@@ -15,7 +15,7 @@ const checkSubscription = async (req, res, next) => {
     const today = moment();
 
     if (today.isAfter(nextPaymentDate)) {
-      req.flash("info", "Your subscription has expired. Please renew to continue accessing this resource.");
+      req.flash("error", "Your subscription has expired. Please renew to continue accessing this resource.");
       return res.redirect("/makePayment")
     }
 
@@ -28,7 +28,6 @@ const checkSubscription = async (req, res, next) => {
 
 const quizAccessControl = (req, res, next) => {
     const user = req.user;
-    // Get current day e.g Monday with moment
     const currentDay = moment().format('dddd');
 
     if (user.plan_type === 'weekly') {
