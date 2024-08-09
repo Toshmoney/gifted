@@ -179,7 +179,7 @@ router.route("/wallet/verify-payment").post(isLoggedIn, fundWalletVerify);
 router.route("/wallet/fund-manual").post([isLoggedIn, isAdmin], addFundsManually);
 
 // Spin only
-router.route('/spin-wheel').get([isLoggedIn, checkSubscription, checkSpinAvailability],spinNow)
+router.route('/spin-wheel').get([isLoggedIn, checkSubscription, checkSpinAvailability, quizAccessControl],spinNow)
 router.route('/spin-wheel').post([isLoggedIn, checkSubscription, checkSpinAvailability],spintheWheel)
 router.route('/spin').get([isLoggedIn, checkSubscription],spin);
 
