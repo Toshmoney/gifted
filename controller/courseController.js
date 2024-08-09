@@ -210,8 +210,8 @@ const CoursePointpurchase = async(req, res) => {
         }
 
         if (course.purchasedBy.includes(user)) {
-            req.flash("error", "C'mon, you already purchased this course");
-            return res.redirect(`/my-courses/${courseId}`);
+            req.flash("error", "You already purchased this course, visit classroom to access it.");
+            return res.redirect('/all-available-courses');
         }
 
         const course_access_point = course.point;
